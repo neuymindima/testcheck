@@ -2,197 +2,244 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Технологии программирования — тестирование</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4c6fff">
+<title>Кодик — тесты по технологиям программирования</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#f4f5f2;
-    --surface:#ffffff;
-    --ink:#1b2430;
-    --muted:#6b7280;
-    --line:#dfe3e6;
-    --amber:#c8860a;
-    --amber-bg:#fbf1de;
-    --teal:#1f7a70;
-    --teal-bg:#e6f3f1;
-    --danger:#b6402f;
-    --danger-bg:#fbeae7;
-    --mono:'IBM Plex Mono',monospace;
-    --sans:'Inter',system-ui,sans-serif;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);}
-  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;}
-  .frame{width:100%;max-width:440px;min-height:100vh;background:var(--surface);border-left:1px solid var(--line);border-right:1px solid var(--line);display:flex;flex-direction:column;}
-  header.topbar{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--surface);z-index:5;}
-  .dots{display:flex;gap:5px;}
-  .dots span{width:8px;height:8px;border-radius:50%;background:var(--line);}
-  header.topbar .brand{font-family:var(--mono);font-size:14px;letter-spacing:.02em;color:var(--ink);}
-  header.topbar .prompt{font-family:var(--mono);color:var(--amber);font-size:14px;}
-  header.topbar .who{margin-left:auto;font-size:12px;color:var(--muted);font-family:var(--mono);}
-  main{flex:1;padding:20px 18px 40px;}
-  h1{font-family:var(--mono);font-size:17px;font-weight:600;margin:0 0 4px;}
-  h2{font-family:var(--mono);font-size:14px;font-weight:600;margin:28px 0 10px;color:var(--muted);}
-  p.lead{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
-  .field{margin-bottom:14px;}
-  label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-family:var(--mono);}
-  input,select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:6px;font-size:14px;font-family:var(--sans);background:var(--surface);color:var(--ink);}
-  input:focus,select:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
-  button{cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:10px 16px;border-radius:6px;font-size:14px;font-family:var(--sans);font-weight:500;}
-  button.secondary{background:transparent;color:var(--ink);}
-  button.ghost{background:transparent;color:var(--muted);border-color:var(--line);}
-  button:disabled{opacity:.5;cursor:default;}
-  .row{display:flex;gap:10px;}
-  .tabs{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:22px;}
-  .tabs button{flex:1;border:none;background:var(--surface);color:var(--muted);border-radius:0;font-weight:500;}
-  .tabs button.active{background:var(--ink);color:#fff;}
-  .hidden{display:none !important;}
-  .card{border:1px solid var(--line);border-radius:8px;padding:14px 14px 6px;margin-bottom:14px;background:var(--surface);}
-  .qtag{font-family:var(--mono);font-size:11px;color:var(--amber);margin-bottom:6px;}
-  .qtext{font-size:14px;margin-bottom:10px;line-height:1.4;}
-  .opt{display:flex;align-items:flex-start;gap:8px;padding:7px 0;font-size:13.5px;border-top:1px solid var(--line);}
-  .opt:first-of-type{border-top:none;}
-  .opt input{width:auto;margin-top:3px;}
-  .banner{border:1px dashed var(--amber);background:var(--amber-bg);color:#6b4c05;font-size:12.5px;padding:10px 12px;border-radius:6px;margin-bottom:18px;line-height:1.5;font-family:var(--mono);}
-  .score{font-family:var(--mono);font-size:34px;font-weight:600;text-align:center;padding:18px 0 4px;}
-  .score.ok{color:var(--teal);}
-  .score.bad{color:var(--danger);}
-  .subline{text-align:center;color:var(--muted);font-size:13px;margin-bottom:18px;}
-  ul.hist{list-style:none;margin:0;padding:0;}
-  ul.hist li{display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-top:1px solid var(--line);}
-  ul.hist li:first-child{border-top:none;}
-  ul.hist .tag{font-family:var(--mono);font-size:11px;color:var(--muted);}
-  table{width:100%;border-collapse:collapse;font-size:12.5px;}
-  table th{font-family:var(--mono);font-weight:500;color:var(--muted);text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);}
-  table td{padding:7px 4px;border-bottom:1px solid var(--line);}
-  .pill{display:inline-block;padding:2px 7px;border-radius:20px;font-size:11px;font-family:var(--mono);}
-  .pill.ok{background:var(--teal-bg);color:var(--teal);}
-  .pill.bad{background:var(--danger-bg);color:var(--danger);}
-  .err{color:var(--danger);font-size:12.5px;margin:-6px 0 12px;}
-  .empty{color:var(--muted);font-size:13px;padding:14px 0;text-align:center;border:1px dashed var(--line);border-radius:8px;}
-  footer.foot{padding:14px 18px;border-top:1px solid var(--line);}
+:root{--blue:#4c6fff;--blue-d:#3753d6;--green:#2fc67a;--green-d:#1fa561;--red:#ff5b6e;--red-d:#d93a4e;--orange:#ff9f43;--purple:#8e6cff;--yellow:#ffd23f;--ink:#25264a;--muted:#7b7ea3;--bg:#f2f5ff;--line:#e3e8fb}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;padding-bottom:84px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;color:inherit}
+.blobs i{position:fixed;border-radius:50%;filter:blur(70px);z-index:-1;opacity:.32;animation:drift 18s ease-in-out infinite alternate}
+.blobs i:nth-child(1){width:340px;height:340px;background:var(--purple);top:-90px;left:-90px}
+.blobs i:nth-child(2){width:300px;height:300px;background:var(--blue);bottom:-70px;right:-70px;animation-delay:-6s}
+.blobs i:nth-child(3){width:220px;height:220px;background:var(--yellow);top:42%;right:18%;animation-delay:-12s;opacity:.22}
+@keyframes drift{to{transform:translate(60px,40px) scale(1.15)}}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:2px solid var(--line)}
+.top-in{max-width:1040px;margin:0 auto;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top));display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:23px;letter-spacing:-.02em}
+.logo .mascot{width:36px;height:36px}
+.spacer{flex:1}
+.chip{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:14px;font-weight:800;font-size:14px;border:2px solid var(--line);background:#fff}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--purple);color:#fff;display:grid;place-items:center;font-weight:900;box-shadow:0 3px 0 #6f4de0}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--muted);transition:.15s}
+.icon-btn:hover{color:var(--red);border-color:#ffc9d0}
+.icon-btn svg{width:20px;height:20px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:#fff;border-top:2px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.nav button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:800;font-size:11px;color:var(--muted);padding:6px;border-radius:14px;cursor:pointer;transition:.15s}
+.nav button svg{width:24px;height:24px}
+.nav button.on{color:var(--blue);background:#eef1ff}
+.testing .nav{display:none}
+@media(min-width:760px){body{padding-bottom:0}.nav{position:static;border:0;background:none;padding:0;gap:6px;margin-left:18px}.nav button{flex:none;flex-direction:row;font-size:15px;padding:9px 14px}}
+svg{display:block}
+main{max-width:1040px;margin:0 auto;padding:22px 18px 40px}
+.testing main{padding-bottom:150px}
+.enter{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.stagger>*{animation:rise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*60ms)}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+h2.sec{font-size:22px;font-weight:900;margin:26px 0 14px}
+.card{background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:20px}
+.btn{border:0;border-radius:16px;padding:14px 24px;font-weight:900;font-size:16px;background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-d);cursor:pointer;transition:transform .08s,box-shadow .08s,filter .15s;letter-spacing:.01em}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--blue-d)}
+.btn.green{background:var(--green);box-shadow:0 5px 0 var(--green-d)}.btn.green:active{box-shadow:0 1px 0 var(--green-d)}
+.btn.red{background:var(--red);box-shadow:0 5px 0 var(--red-d)}.btn.red:active{box-shadow:0 1px 0 var(--red-d)}
+.btn.ghost{background:#fff;color:var(--blue);border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}.btn.ghost:active{box-shadow:0 1px 0 var(--line)}
+.btn:disabled{background:#e3e8fb;color:#a3a8cc;box-shadow:0 5px 0 #cfd5ee;cursor:default;filter:none}
+.btn.wide{width:100%}
+.btn.sm{padding:9px 14px;font-size:14px;border-radius:12px;box-shadow:0 3px 0 var(--blue-d)}
+/* mascot */
+.mascot{width:100%;height:auto;overflow:visible}
+.mascot .m-float{animation:float 3s ease-in-out infinite}
+.mascot .m-eyes{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+.mascot .m-ant{animation:ant 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.mascot .m-mouth{display:none}
+.mascot[data-mood=happy] .happy,.mascot[data-mood=neutral] .neutral,.mascot[data-mood=sad] .sad{display:block}
+.mascot[data-mood=sad] .m-body{fill:#7d92f5}
+@keyframes float{50%{transform:translateY(-5px)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+@keyframes ant{50%{transform:scale(1.25)}}
+/* auth */
+.auth{display:grid;gap:26px;align-items:center;max-width:900px;margin:10px auto}
+@media(min-width:800px){.auth{grid-template-columns:1fr 1fr}}
+.auth-l{text-align:center}
+.auth-l .mascot{width:min(52vw,230px);margin:0 auto 10px}
+.auth-l h1{font-size:clamp(26px,5vw,38px);font-weight:900;line-height:1.1;margin-bottom:10px}
+.auth-l p{color:var(--muted);font-weight:700;line-height:1.45;max-width:380px;margin:0 auto}
+.seg{display:flex;background:#eef1fb;border-radius:16px;padding:4px;margin-bottom:18px}
+.seg button{flex:1;border:0;background:none;padding:10px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;color:var(--muted);transition:.2s}
+.seg button.on{background:#fff;color:var(--blue);box-shadow:0 2px 0 var(--line)}
+.f{display:block;margin-bottom:14px}
+.f>span{display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:6px}
+.in{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font-size:16px;font-weight:600;background:#fff;transition:.15s}
+.in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(76,111,255,.15)}
+textarea.in{resize:vertical;min-height:70px}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.role{position:relative}
+.role input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.role div{border:2px solid var(--line);border-radius:16px;padding:12px;text-align:center;font-weight:800;transition:.15s;box-shadow:0 3px 0 var(--line)}
+.role input:checked+div{border-color:var(--blue);background:#eef1ff;color:var(--blue);box-shadow:0 3px 0 #b9c4f5}
+.role input:focus-visible+div{outline:3px solid rgba(76,111,255,.4)}
+.formerr{background:#ffe9ec;color:var(--red-d);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:14px}
+.warn{background:#fff4dc;color:#8a5a00;border-radius:12px;padding:10px 12px;font-weight:700;font-size:13px;margin-bottom:14px}
+/* hero & stats */
+.hero{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#4c6fff,#8e6cff);border-radius:28px;padding:20px 22px;color:#fff;box-shadow:0 6px 0 #3a52cc;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-40px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.1)}
+.hero .mascot{width:92px;flex:none}
+.hero-t{flex:1;min-width:0;position:relative;z-index:1}
+.bubble{background:#fff;color:var(--ink);padding:12px 16px;border-radius:18px;font-weight:800;line-height:1.3;position:relative;display:inline-block}
+.bubble::before{content:'';position:absolute;left:-8px;top:22px;border:8px solid transparent;border-right-color:#fff;border-left:0}
+.lvl{margin-top:14px}
+.lvl-r{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:6px}
+.track{height:12px;background:#eef1fb;border-radius:20px;overflow:hidden}
+.track.dark{background:rgba(255,255,255,.28)}
+.fill{height:100%;border-radius:20px;background:var(--c,var(--green));width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 4px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:#fff;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:20px;padding:14px;display:flex;align-items:center;gap:12px}
+.stat .ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;flex:none;background:var(--c);box-shadow:0 4px 0 var(--d);color:#fff}
+.stat .ic svg{width:24px;height:24px}
+.stat b{display:block;font-size:24px;font-weight:900;line-height:1}
+.stat span{font-size:12px;color:var(--muted);font-weight:800}
+/* topics */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px}
+.tcard{background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:16px;cursor:pointer;transition:transform .15s,box-shadow .15s;text-align:left;display:flex;flex-direction:column;gap:12px}
+.tcard:hover{transform:translateY(-4px);box-shadow:0 9px 0 var(--line)}
+.tcard:active{transform:translateY(2px);box-shadow:0 2px 0 var(--line)}
+.tcard:focus-visible{outline:3px solid rgba(76,111,255,.45)}
+.tile{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:var(--c);box-shadow:0 4px 0 var(--d);transition:transform .25s}
+.tcard:hover .tile{transform:rotate(-8deg) scale(1.08)}
+.tile svg{width:30px;height:30px;color:#fff}
+.tcard h3{font-size:18px;font-weight:900;line-height:1.2}
+.tcard .meta{font-size:13px;font-weight:700;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.stars{display:flex;gap:2px}
+.star{width:20px;height:20px;fill:#e3e8fb;stroke:#d3daf3;stroke-width:1.5;stroke-linejoin:round}
+.star.on{fill:#ffc531;stroke:#e59f00}
+.empty{border:2px dashed #cfd6f3;border-radius:22px;padding:30px;text-align:center;color:var(--muted);font-weight:700}
+/* test */
+.t-top{display:flex;align-items:center;gap:14px;margin-bottom:20px;max-width:820px;margin-inline:auto}
+.x{width:44px;height:44px;border-radius:14px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;flex:none;color:var(--muted);box-shadow:0 3px 0 var(--line)}
+.x svg{width:20px;height:20px}
+.t-track{flex:1;height:16px;border-radius:20px;background:#e1e6f7;overflow:hidden}
+.t-fill{height:100%;background:var(--green);border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1);position:relative}
+.t-fill::after{content:'';position:absolute;left:8px;right:8px;top:3px;height:4px;border-radius:4px;background:rgba(255,255,255,.4)}
+.combo{display:flex;align-items:center;gap:4px;font-weight:900;color:#e07f1f;background:#fff1de;border-radius:14px;padding:6px 12px;animation:pop .4s}
+.combo svg{width:18px;height:18px;fill:#ff9f43;stroke:#e07f1f}
+.q-wrap{display:grid;gap:16px;max-width:820px;margin:0 auto}
+@media(min-width:760px){.q-wrap{grid-template-columns:150px 1fr;align-items:start}}
+.q-mascot{display:flex;align-items:center;gap:12px}
+@media(min-width:760px){.q-mascot{flex-direction:column;align-items:stretch;text-align:center}}
+.q-mascot .mascot{width:84px;flex:none}
+@media(min-width:760px){.q-mascot .mascot{width:120px;margin:0 auto}}
+.q-mascot .bubble{font-size:14px;padding:10px 12px}
+.q-mascot .bubble::before{left:-8px;top:50%;margin-top:-8px}
+@media(min-width:760px){.q-mascot{flex-direction:column-reverse}.q-mascot .bubble::before{left:50%;top:auto;bottom:-8px;margin:0 0 0 -8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}}
+.q-meta{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:8px}
+.q-text{font-size:21px;font-weight:900;line-height:1.35;margin-bottom:18px;white-space:pre-wrap}
+.ans{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:16px;background:#fff;font-weight:700;font-size:16px;margin-bottom:12px;cursor:pointer;transition:transform .08s,box-shadow .08s,border-color .15s,background .15s,opacity .2s}
+.ans:hover{border-color:#b9c4f5}
+.ans:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.ans .k{width:32px;height:32px;border-radius:10px;border:2px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:14px;color:var(--muted);flex:none;transition:.15s}
+.ans.sel{border-color:var(--blue);background:#eef1ff;box-shadow:0 4px 0 #b9c4f5}
+.ans.sel .k{background:var(--blue);border-color:var(--blue);color:#fff}
+.ans.ok{border-color:var(--green);background:#e5f9ee;box-shadow:0 4px 0 #9be3bf;animation:pop .4s}
+.ans.ok .k{background:var(--green);border-color:var(--green);color:#fff}
+.ans.no{border-color:var(--red);background:#ffe9ec;box-shadow:0 4px 0 #ffb5be;animation:shake .4s}
+.ans.no .k{background:var(--red);border-color:var(--red);color:#fff}
+.ans.dim{opacity:.5;pointer-events:none}
+@keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
+@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+.foot{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--line);padding:14px 18px calc(14px + env(safe-area-inset-bottom));z-index:40}
+.foot-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:16px;justify-content:flex-end}
+.foot.ok,.foot.no{animation:slideup .4s cubic-bezier(.2,.8,.2,1)}
+.foot.ok{background:#e5f9ee;border-color:#bfeed5}.foot.no{background:#ffe9ec;border-color:#ffc9d0}
+@keyframes slideup{from{transform:translateY(100%)}}
+.fb{flex:1;min-width:0}.fb h3{font-size:21px;font-weight:900}.fb p{font-size:14px;font-weight:700;margin-top:3px;line-height:1.35}
+.foot.ok h3{color:var(--green-d)}.foot.no h3{color:var(--red-d)}
+.foot .btn{flex:none;min-width:130px}
+.foot-in>.btn:only-child{width:100%}
+@media(min-width:760px){.foot-in>.btn:only-child{width:auto;min-width:200px}}
+/* result */
+.res{text-align:center;max-width:520px;margin:0 auto}
+.res .mascot{width:150px;margin:0 auto 6px}
+.res h1{font-size:30px;font-weight:900;margin-bottom:4px}
+.res p.sub{color:var(--muted);font-weight:700;margin-bottom:18px}
+.big-stars{display:flex;justify-content:center;gap:10px;margin:8px 0 20px}
+.big-stars .star{width:74px;height:74px}
+.big-stars .star.on{animation:starpop .6s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--k)*.28s + .2s);filter:drop-shadow(0 4px 0 #e59f00)}
+@keyframes starpop{0%{transform:scale(0) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
+.rs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.rs div{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px 6px;box-shadow:0 4px 0 var(--line)}
+.rs b{display:block;font-size:24px;font-weight:900}
+.rs span{font-size:12px;font-weight:800;color:var(--muted)}
+.res .row{display:grid;gap:12px}
+.record{display:inline-block;background:#fff1de;color:#e07f1f;font-weight:900;padding:6px 14px;border-radius:20px;margin-bottom:12px;animation:pop .5s .6s both}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
+/* awards & history */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.badge{background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:18px;text-align:center}
+.badge .medal{width:72px;height:72px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;background:var(--c);box-shadow:0 5px 0 var(--d),inset 0 -6px 0 rgba(0,0,0,.08);color:#fff}
+.badge .medal svg{width:34px;height:34px}
+.badge.lock .medal{background:#dfe3f3;box-shadow:0 5px 0 #c8cee6;color:#a3a8cc}
+.badge.lock{opacity:.85}
+.badge.got .medal{animation:pop .6s}
+.badge b{display:block;font-size:17px;font-weight:900}
+.badge span{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:3px 0 10px}
+.badge em{font-style:normal;font-size:12px;font-weight:900;color:var(--muted);background:#eef1fb;border-radius:10px;padding:3px 10px}
+.badge.got em{background:#e5f9ee;color:var(--green-d)}
+.hlist{display:grid;gap:12px}
+.hrow{display:flex;align-items:center;gap:14px;background:#fff;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:20px;padding:12px 16px}
+.hrow .stars{flex:none}
+.hmain{flex:1;min-width:0}.hmain b{display:block;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hmain span{font-size:13px;font-weight:700;color:var(--muted)}
+.hscore{font-weight:900;font-size:18px;color:var(--blue)}
+/* teacher */
+.bars{display:grid;gap:14px}
+.bar-r{display:grid;grid-template-columns:minmax(90px,170px) 1fr 48px;gap:12px;align-items:center;font-weight:800;font-size:14px}
+.bar-r .track{height:18px}
+.bar-r em{font-style:normal;text-align:right;color:var(--muted)}
+.tw{overflow-x:auto;border-radius:20px}
+table{width:100%;border-collapse:collapse;background:#fff;min-width:520px}
+th{text-align:left;font-size:12px;font-weight:900;color:var(--muted);padding:12px 14px;background:#f7f9ff;border-bottom:2px solid var(--line)}
+td{padding:12px 14px;border-bottom:2px solid #f0f3fc;font-weight:700;font-size:14px}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;padding:4px 12px;border-radius:20px;font-weight:900;font-size:13px}
+.pill.ok{background:#e5f9ee;color:var(--green-d)}.pill.mid{background:#fff1de;color:#e07f1f}.pill.no{background:#ffe9ec;color:var(--red-d)}
+.qform{display:grid;gap:4px}
+.optrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.optrow input[type=radio]{width:22px;height:22px;accent-color:var(--green);flex:none}
+.qgroup{margin-top:22px}
+.qgroup>h3{font-size:17px;font-weight:900;margin-bottom:10px;display:flex;justify-content:space-between}
+.qitem{background:#fff;border:2px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.qitem .qt{flex:1;min-width:0}
+.qitem b{display:block;font-weight:800;margin-bottom:6px;white-space:pre-wrap}
+.qitem small{display:block;font-weight:700;color:var(--muted);font-size:13px;line-height:1.5}
+.qitem small.c{color:var(--green-d);font-weight:800}
+.filter{display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.filter .in{max-width:280px}
+.loader{display:grid;place-items:center;padding:80px 0}
+.spin{width:46px;height:46px;border-radius:50%;border:5px solid #dfe5fb;border-top-color:var(--blue);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:16px;font-weight:800;z-index:80;animation:drop .4s cubic-bezier(.2,.8,.2,1);max-width:90vw;text-align:center}
+.toast.bad{background:var(--red-d)}.toast.good{background:var(--green-d)}.toast.out{opacity:0;transition:opacity .4s}
+@keyframes drop{from{transform:translate(-50%,-30px);opacity:0}}
+@media(max-width:520px){.hero{padding:16px}.hero .mascot{width:70px}.q-text{font-size:19px}.bar-r{grid-template-columns:80px 1fr 40px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="frame">
-  <header class="topbar">
-    <span class="dots"><span></span><span></span><span></span></span>
-    <span class="prompt">&gt;_</span><span class="brand">testcheck</span>
-    <span class="who" id="whoBadge"></span>
-  </header>
-  <main id="app">
-
-    <!-- SETUP BANNER -->
-    <div class="banner" id="setupBanner">
-      firebaseConfig не заполнен. Откройте index.html, вставьте свои ключи Firebase в объект firebaseConfig (см. README.md), затем обновите страницу.
-    </div>
-
-    <!-- AUTH VIEW -->
-    <section id="authView">
-      <h1>Технологии программирования</h1>
-      <p class="lead">Система тестирования знаний студентов. Войдите или зарегистрируйтесь.</p>
-      <div class="tabs">
-        <button id="tabLogin" class="active">Вход</button>
-        <button id="tabRegister">Регистрация</button>
-      </div>
-
-      <form id="loginForm">
-        <div class="field"><label>Email</label><input type="email" id="loginEmail" required></div>
-        <div class="field"><label>Пароль</label><input type="password" id="loginPassword" required></div>
-        <div class="err hidden" id="loginErr"></div>
-        <button type="submit">Войти</button>
-      </form>
-
-      <form id="registerForm" class="hidden">
-        <div class="field"><label>Имя</label><input type="text" id="regName" required></div>
-        <div class="field"><label>Роль</label>
-          <select id="regRole">
-            <option value="student">Студент</option>
-            <option value="teacher">Преподаватель</option>
-          </select>
-        </div>
-        <div class="field" id="groupField"><label>Учебная группа</label><input type="text" id="regGroup" placeholder="например, ПИ-21"></div>
-        <div class="field"><label>Email</label><input type="email" id="regEmail" required></div>
-        <div class="field"><label>Пароль</label><input type="password" id="regPassword" required minlength="6"></div>
-        <div class="err hidden" id="regErr"></div>
-        <button type="submit">Зарегистрироваться</button>
-      </form>
-    </section>
-
-    <!-- STUDENT VIEW -->
-    <section id="studentView" class="hidden">
-      <h1>Здравствуйте, <span id="studentName"></span></h1>
-      <p class="lead">Выберите тему и пройдите тест по дисциплине «Технологии программирования».</p>
-
-      <div id="pickArea">
-        <div class="field">
-          <label>Тема</label>
-          <select id="topicSelect"><option value="">— выберите тему —</option></select>
-        </div>
-        <button id="startTestBtn" disabled>Начать тест</button>
-      </div>
-
-      <form id="testForm" class="hidden"></form>
-      <button id="submitTestBtn" class="hidden">Завершить тест</button>
-
-      <div id="resultArea" class="hidden">
-        <div class="score" id="scoreVal"></div>
-        <div class="subline" id="scoreSub"></div>
-        <button class="secondary" id="backToPickBtn">К списку тем</button>
-      </div>
-
-      <h2>История попыток</h2>
-      <ul class="hist" id="historyList"></ul>
-    </section>
-
-    <!-- TEACHER VIEW -->
-    <section id="teacherView" class="hidden">
-      <h1>Кабинет преподавателя</h1>
-      <p class="lead">Добавляйте вопросы в банк заданий и просматривайте результаты студентов.</p>
-
-      <h2>Новый вопрос</h2>
-      <form id="questionForm">
-        <div class="field"><label>Тема</label><input type="text" id="qTopic" placeholder="например, Циклы и массивы" required></div>
-        <div class="field"><label>Текст вопроса</label><input type="text" id="qText" required></div>
-        <div class="field"><label>Вариант 1</label><input type="text" id="opt0" required></div>
-        <div class="field"><label>Вариант 2</label><input type="text" id="opt1" required></div>
-        <div class="field"><label>Вариант 3</label><input type="text" id="opt2" required></div>
-        <div class="field"><label>Вариант 4</label><input type="text" id="opt3" required></div>
-        <div class="field"><label>Правильный вариант</label>
-          <select id="correctIdx">
-            <option value="0">Вариант 1</option>
-            <option value="1">Вариант 2</option>
-            <option value="2">Вариант 3</option>
-            <option value="3">Вариант 4</option>
-          </select>
-        </div>
-        <button type="submit">Добавить вопрос</button>
-      </form>
-
-      <h2>Результаты студентов</h2>
-      <table id="resultsTable">
-        <thead><tr><th>Студент</th><th>Тема</th><th>Балл</th><th>Дата</th></tr></thead>
-        <tbody id="resultsBody"></tbody>
-      </table>
-      <div class="empty hidden" id="resultsEmpty">Пока нет результатов</div>
-    </section>
-
-  </main>
-  <footer class="foot">
-    <button class="ghost hidden" id="logoutBtn">Выйти</button>
-  </footer>
-</div>
+<div class="blobs"><i></i><i></i><i></i></div>
+<canvas id="confetti"></canvas>
+<header class="top"><div class="top-in" id="topin"></div></header>
+<main id="view"></main>
 
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 <script>
-/* ======= 1. НАСТРОЙКА FIREBASE =======
-   Вставьте сюда конфиг вашего проекта Firebase
-   (Firebase Console → Настройки проекта → Ваши приложения → SDK setup and configuration).
-   Инструкция полностью — в README.md */
+/* ===== Firebase ===== */
 const firebaseConfig = {
   apiKey: "AIzaSyA5a8uoo4aVPbS5Wj9EZhM0-LKUQv5_Ks4",
   authDomain: "testcheck-tp.firebaseapp.com",
@@ -202,193 +249,366 @@ const firebaseConfig = {
   appId: "1:580671051280:web:2f1a2284e17a2060f51c95",
   measurementId: "G-0KSKL7XYWP"
 };
-
-const configured = firebaseConfig.apiKey !== "YOUR_API_KEY";
-document.getElementById("setupBanner").classList.toggle("hidden", configured);
-
+const configured = firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("YOUR_");
 let auth, db;
-if (configured) {
-  firebase.initializeApp(firebaseConfig);
-  auth = firebase.auth();
-  db = firebase.firestore();
+if (configured) { firebase.initializeApp(firebaseConfig); auth = firebase.auth(); db = firebase.firestore(); }
+
+/* ===== Утилиты ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const plural = (n, [a, b, c]) => { n = Math.abs(n) % 100; const m = n % 10; return n > 10 && n < 20 ? c : m > 1 && m < 5 ? b : m === 1 ? a : c; };
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pct = r => Math.round(r.score / r.total * 100);
+const starsOf = p => p >= 90 ? 3 : p >= 70 ? 2 : p >= 50 ? 1 : 0;
+const fmtDate = t => new Date(t).toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+const dayKey = t => { const d = new Date(t); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); };
+const PAL = [['#4c6fff','#3753d6'],['#2fc67a','#1fa561'],['#ff9f43','#e07f1f'],['#8e6cff','#6f4de0'],['#ff6fa5','#e04d86'],['#18b8d9','#0f93af']];
+const ICON = {
+  grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+  trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  check:'<path d="M5 12l5 5L20 7"/>',
+  flame:'<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/>',
+  star:'<path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+  book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/>'
+};
+const TICON = [
+  '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+  '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+  '<rect x="8" y="8" width="8" height="11" rx="4"/><path d="M12 8V5M9 5l1.5 2M15 5l-1.5 2M4 12h4M16 12h4M5 18l3-2M19 18l-3-2M5 7l3 2M19 7l-3 2"/>',
+  '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 7v10M18 11c0 4-6 3-12 6"/>',
+  '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/>'
+];
+const svg = (n, c = '') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
+const tsvg = i => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${TICON[i % TICON.length]}</svg>`;
+const starSvg = (on, k = 0) => `<svg class="star ${on ? 'on' : ''}" style="--k:${k}" viewBox="0 0 24 24"><path d="${ICON.star.match(/d="([^"]+)"/)[1]}"/></svg>`;
+const mascot = (mood = 'happy') => `<svg class="mascot" data-mood="${mood}" viewBox="0 0 120 130" aria-hidden="true"><g class="m-float">
+<line x1="60" y1="16" x2="60" y2="30" stroke="#25264a" stroke-width="4" stroke-linecap="round"/>
+<circle class="m-ant" cx="60" cy="11" r="7" fill="#ffd23f" stroke="#25264a" stroke-width="3.5"/>
+<rect x="34" y="98" width="52" height="24" rx="11" fill="#8e6cff" stroke="#25264a" stroke-width="4"/>
+<rect x="6" y="52" width="14" height="26" rx="7" fill="#8e6cff" stroke="#25264a" stroke-width="4"/>
+<rect x="100" y="52" width="14" height="26" rx="7" fill="#8e6cff" stroke="#25264a" stroke-width="4"/>
+<rect class="m-body" x="16" y="28" width="88" height="74" rx="28" fill="#4c6fff" stroke="#25264a" stroke-width="4"/>
+<rect x="27" y="40" width="66" height="46" rx="20" fill="#fff"/>
+<g class="m-eyes"><ellipse cx="46" cy="61" rx="7" ry="8.5" fill="#25264a"/><ellipse cx="74" cy="61" rx="7" ry="8.5" fill="#25264a"/><circle cx="48.5" cy="58" r="2.4" fill="#fff"/><circle cx="76.5" cy="58" r="2.4" fill="#fff"/></g>
+<circle cx="35" cy="75" r="5" fill="#ff9bb5" opacity=".75"/><circle cx="85" cy="75" r="5" fill="#ff9bb5" opacity=".75"/>
+<path class="m-mouth neutral" d="M53 77h14" stroke="#25264a" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path class="m-mouth happy" d="M50 72q10 15 20 0z" fill="#ff5b6e" stroke="#25264a" stroke-width="3.5" stroke-linejoin="round"/>
+<path class="m-mouth sad" d="M52 80q8-8 16 0" stroke="#25264a" stroke-width="4" stroke-linecap="round" fill="none"/>
+</g></svg>`;
+
+/* ===== Состояние ===== */
+const S = { user: null, tab: 'auth', authMode: 'login', questions: [], results: [], all: [], loading: false, test: null, last: null, pending: null, filter: '' };
+
+/* ===== Данные ===== */
+async function loadQuestions() { const s = await db.collection('questions').get(); S.questions = s.docs.map(d => ({ id: d.id, ...d.data() })); }
+async function loadMyResults() { const s = await db.collection('results').where('studentId', '==', S.user.uid).get(); S.results = s.docs.map(d => d.data()).sort((a, b) => b.date - a.date); }
+async function loadAllResults() { const s = await db.collection('results').orderBy('date', 'desc').limit(300).get(); S.all = s.docs.map(d => d.data()); }
+
+function stats() {
+  const r = S.results, xp = r.reduce((a, x) => a + x.score * 10, 0);
+  const avg = r.length ? Math.round(r.reduce((a, x) => a + pct(x), 0) / r.length) : 0;
+  const stars = r.reduce((a, x) => a + starsOf(pct(x)), 0);
+  const days = new Set(r.map(x => dayKey(x.date)));
+  let streak = 0, d = new Date(); if (!days.has(dayKey(d))) d.setDate(d.getDate() - 1);
+  while (days.has(dayKey(d))) { streak++; d.setDate(d.getDate() - 1); }
+  return { xp, avg, stars, streak, lvl: Math.floor(xp / 100) + 1, into: xp % 100, count: r.length };
+}
+function topicList() {
+  const m = new Map();
+  S.questions.forEach(q => m.set(q.topic, (m.get(q.topic) || 0) + 1));
+  return [...m].map(([name, count]) => {
+    const rs = S.results.filter(r => r.topic === name);
+    return { name, count, best: rs.length ? Math.max(...rs.map(pct)) : null };
+  });
 }
 
-/* ======= 2. ЭЛЕМЕНТЫ ======= */
-const el = (id) => document.getElementById(id);
-const show = (id) => el(id).classList.remove("hidden");
-const hide = (id) => el(id).classList.add("hidden");
+/* ===== Рендер ===== */
+function toast(msg, kind = '') { const t = document.createElement('div'); t.className = 'toast ' + kind; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('out'), 2600); setTimeout(() => t.remove(), 3100); }
 
-let currentUser = null;   // { uid, name, role, group }
-let currentQuestions = []; // вопросы текущего теста
-let currentTopic = "";
-
-/* ======= 3. АВТОРИЗАЦИЯ: ТАБЫ ======= */
-el("tabLogin").onclick = () => { el("tabLogin").classList.add("active"); el("tabRegister").classList.remove("active"); show("loginForm"); hide("registerForm"); };
-el("tabRegister").onclick = () => { el("tabRegister").classList.add("active"); el("tabLogin").classList.remove("active"); show("registerForm"); hide("loginForm"); };
-el("regRole").onchange = (e) => { el("groupField").classList.toggle("hidden", e.target.value === "teacher"); };
-
-el("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  hide("loginErr");
-  try {
-    await auth.signInWithEmailAndPassword(el("loginEmail").value, el("loginPassword").value);
-  } catch (err) {
-    el("loginErr").textContent = "Не удалось войти: проверьте email и пароль.";
-    show("loginErr");
+function renderHeader() {
+  const h = $('#topin');
+  let html = `<div class="logo">${mascot('happy')}<span>Кодик</span></div>`;
+  if (S.user) {
+    const tabs = S.user.role === 'teacher'
+      ? [['overview','chart','Обзор'],['questions','list','Вопросы'],['results','check','Результаты']]
+      : [['topics','grid','Темы'],['awards','trophy','Награды'],['history','clock','История']];
+    const active = (S.tab === 'test' || S.tab === 'result') ? 'topics' : S.tab;
+    html += `<nav class="nav">${tabs.map(([k, i, t]) => `<button data-tab="${k}" class="${active === k ? 'on' : ''}">${svg(i)}<span>${t}</span></button>`).join('')}</nav><div class="spacer"></div>`;
+    html += S.user.role === 'student' ? `<div class="chip">${svg('flame')}<span style="width:0"></span>Ур. ${stats().lvl}</div>` : `<div class="chip">Преподаватель</div>`;
+    html += `<div class="avatar" title="${esc(S.user.name)}">${esc((S.user.name || '?')[0].toUpperCase())}</div><button class="icon-btn" data-act="logout" aria-label="Выйти">${svg('out')}</button>`;
   }
-});
+  h.innerHTML = html;
+  h.querySelectorAll('.chip svg').forEach(s => { s.style.cssText = 'width:18px;height:18px;color:#ff9f43'; });
+}
 
-el("registerForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  hide("regErr");
-  try {
-    const cred = await auth.createUserWithEmailAndPassword(el("regEmail").value, el("regPassword").value);
-    await db.collection("users").doc(cred.user.uid).set({
-      name: el("regName").value,
-      role: el("regRole").value,
-      group: el("regGroup").value || null,
-      createdAt: Date.now()
-    });
-  } catch (err) {
-    el("regErr").textContent = "Не удалось зарегистрироваться: " + (err.message || "проверьте данные.");
-    show("regErr");
+function render() {
+  document.body.classList.toggle('testing', S.tab === 'test');
+  renderHeader();
+  let html;
+  if (!S.user) html = authView();
+  else if (S.loading) html = '<div class="loader"><div class="spin"></div></div>';
+  else if (S.tab === 'test') html = testView();
+  else if (S.tab === 'result') html = resultView();
+  else if (S.user.role === 'teacher') html = ({ overview: tOverview, questions: tQuestions, results: tResults }[S.tab] || tOverview)();
+  else html = ({ topics: sTopics, awards: sAwards, history: sHistory }[S.tab] || sTopics)();
+  $('#view').innerHTML = html;
+  requestAnimationFrame(() => setTimeout(() => { animateBars(); animateCounts(); }, 40));
+}
+function animateBars() { document.querySelectorAll('[data-w]').forEach(e => { e.style.width = e.dataset.w + '%'; }); }
+function animateCounts() {
+  document.querySelectorAll('.cnt').forEach(e => {
+    const to = +e.dataset.to, suf = e.dataset.suf || '', t0 = performance.now();
+    (function f(t) { const k = Math.min(1, (t - t0) / 800); e.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suf; if (k < 1) requestAnimationFrame(f); })(t0);
+  });
+}
+function confetti() {
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const c = $('#confetti'), x = c.getContext('2d'); c.width = innerWidth; c.height = innerHeight;
+  const cols = ['#4c6fff', '#2fc67a', '#ff9f43', '#8e6cff', '#ff6fa5', '#ffd23f'];
+  const P = Array.from({ length: 150 }, () => ({ x: Math.random() * c.width, y: -20 - Math.random() * c.height * .6, w: 6 + Math.random() * 7, h: 9 + Math.random() * 8, vy: 2.5 + Math.random() * 4, vx: -2 + Math.random() * 4, r: Math.random() * 6, vr: -.2 + Math.random() * .4, c: cols[Math.random() * 6 | 0] }));
+  let t = 0;
+  (function f() { x.clearRect(0, 0, c.width, c.height); P.forEach(p => { p.x += p.vx; p.y += p.vy; p.r += p.vr; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); x.restore(); }); if (++t < 200) requestAnimationFrame(f); else x.clearRect(0, 0, c.width, c.height); })();
+}
+
+/* ----- Авторизация ----- */
+function authView() {
+  const reg = S.authMode === 'register';
+  return `<div class="auth enter">
+  <div class="auth-l">${mascot('happy')}<h1>Учись, проверяй, побеждай</h1><p>Тесты по технологиям программирования с мгновенной проверкой, звёздами, уровнями и наградами.</p></div>
+  <div class="card">
+    <div class="seg"><button data-act="mode" data-m="login" class="${!reg ? 'on' : ''}">Вход</button><button data-act="mode" data-m="register" class="${reg ? 'on' : ''}">Регистрация</button></div>
+    ${configured ? '' : '<div class="warn">Firebase не настроен: вставьте firebaseConfig в index.html.</div>'}
+    <form data-form="${reg ? 'register' : 'login'}">
+      ${reg ? `<div class="roles"><label class="role"><input type="radio" name="role" value="student" checked><div>Студент</div></label><label class="role"><input type="radio" name="role" value="teacher"><div>Преподаватель</div></label></div>
+      <label class="f"><span>Как вас зовут</span><input class="in" name="uname" required maxlength="40" autocomplete="name"></label>
+      <label class="f" id="grp"><span>Учебная группа</span><input class="in" name="group" maxlength="20" placeholder="например, ПИ-21"></label>` : ''}
+      <label class="f"><span>Email</span><input class="in" type="email" name="email" required autocomplete="email"></label>
+      <label class="f"><span>Пароль</span><input class="in" type="password" name="password" required minlength="6" autocomplete="${reg ? 'new-password' : 'current-password'}"></label>
+      <div id="ferr"></div>
+      <button class="btn wide" type="submit">${reg ? 'Создать аккаунт' : 'Войти'}</button>
+    </form>
+  </div></div>`;
+}
+const ERR = { 'auth/invalid-credential': 'Неверный email или пароль.', 'auth/wrong-password': 'Неверный email или пароль.', 'auth/user-not-found': 'Неверный email или пароль.', 'auth/email-already-in-use': 'Этот email уже зарегистрирован.', 'auth/weak-password': 'Пароль должен быть не короче 6 символов.', 'auth/invalid-email': 'Проверьте адрес email.', 'auth/too-many-requests': 'Слишком много попыток, попробуйте позже.', 'auth/network-request-failed': 'Нет соединения с сетью.', 'auth/operation-not-allowed': 'Вход по email не включён в Firebase Authentication.' };
+
+/* ----- Студент ----- */
+const tile = (c, d, icon, val, label, suf = '') => `<div class="stat" style="--c:${c};--d:${d}"><div class="ic">${svg(icon)}</div><div><b class="cnt" data-to="${val}" data-suf="${suf}">0${suf}</b><span>${label}</span></div></div>`;
+
+function sTopics() {
+  const st = stats(), topics = topicList();
+  const hour = new Date().getHours(), hi = hour < 6 ? 'Доброй ночи' : hour < 12 ? 'Доброе утро' : hour < 18 ? 'Добрый день' : 'Добрый вечер';
+  return `<div class="enter">
+  <div class="hero">${mascot('happy')}<div class="hero-t"><div class="bubble">${hi}, ${esc(S.user.name.split(' ')[0])}! Выбери тему и проверь, что ты знаешь.</div>
+    <div class="lvl"><div class="lvl-r"><span>Уровень ${st.lvl}</span><span>${st.into} / 100 XP</span></div><div class="track dark"><div class="fill" style="--c:#ffd23f" data-w="${st.into}"></div></div></div></div></div>
+  <div class="stats stagger">
+    <div style="--i:0">${tile('#ff9f43', '#e07f1f', 'flame', st.streak, 'дней подряд')}</div>
+    <div style="--i:1">${tile('#ffc531', '#e59f00', 'star', st.stars, 'звёзд')}</div>
+    <div style="--i:2">${tile('#4c6fff', '#3753d6', 'check', st.count, 'тестов пройдено')}</div>
+    <div style="--i:3">${tile('#2fc67a', '#1fa561', 'target', st.avg, 'средний балл', '%')}</div>
+  </div>
+  <h2 class="sec">Темы для проверки</h2>
+  ${topics.length ? `<div class="grid stagger">${topics.map((t, i) => {
+    const [c, d] = PAL[i % PAL.length], s = t.best == null ? 0 : starsOf(t.best);
+    return `<button class="tcard" style="--c:${c};--d:${d};--i:${i}" data-act="topic" data-i="${i}"><div class="tile">${tsvg(i)}</div><h3>${esc(t.name)}</h3>
+      <div class="track"><div class="fill" data-w="${t.best ?? 0}"></div></div>
+      <div class="meta"><span>${t.count} ${plural(t.count, ['вопрос', 'вопроса', 'вопросов'])}</span><span class="stars">${[0, 1, 2].map(k => starSvg(k < s)).join('')}</span></div></button>`;
+  }).join('')}</div>` : `<div class="empty">Преподаватель пока не добавил вопросы. Загляните позже.</div>`}
+  </div>`;
+}
+
+function badgeList(st) {
+  const r = S.results, tp = new Set(r.map(x => x.topic)).size;
+  const mk = (t, d, ic, cur, goal, ci) => ({ t, d, ic, cur: Math.min(cur, goal), goal, ok: cur >= goal, ci });
+  return [mk('Первый шаг', 'Пройди первый тест', 'check', r.length, 1, 0), mk('Отличник', 'Набери 100% в тесте', 'star', r.some(x => pct(x) === 100) ? 1 : 0, 1, 2),
+    mk('Усердный', 'Пройди 5 тестов', 'target', r.length, 5, 1), mk('Исследователь', 'Пройди тесты по 3 темам', 'grid', tp, 3, 3),
+    mk('В ритме', 'Занимайся 3 дня подряд', 'flame', st.streak, 3, 4), mk('Коллекционер', 'Собери 10 звёзд', 'trophy', st.stars, 10, 5)];
+}
+function sAwards() {
+  const st = stats(), b = badgeList(st), got = b.filter(x => x.ok).length;
+  return `<div class="enter"><h2 class="sec" style="margin-top:4px">Награды: ${got} из ${b.length}</h2><div class="badges stagger">${b.map((x, i) => `<div class="badge ${x.ok ? 'got' : 'lock'}" style="--c:${PAL[x.ci][0]};--d:${PAL[x.ci][1]};--i:${i}"><div class="medal">${svg(x.ic)}</div><b>${x.t}</b><span>${x.d}</span><em>${x.ok ? 'Получено' : x.cur + ' / ' + x.goal}</em></div>`).join('')}</div></div>`;
+}
+function sHistory() {
+  return `<div class="enter"><h2 class="sec" style="margin-top:4px">История попыток</h2>${S.results.length ? `<div class="hlist stagger">${S.results.slice(0, 40).map((r, i) => `<div class="hrow" style="--i:${Math.min(i, 8)}"><div class="stars">${[0, 1, 2].map(k => starSvg(k < starsOf(pct(r)))).join('')}</div><div class="hmain"><b>${esc(r.topic)}</b><span>${fmtDate(r.date)}</span></div><div class="hscore">${r.score}/${r.total}</div></div>`).join('')}</div>` : '<div class="empty">Вы ещё не проходили тесты. Начните с любой темы!</div>'}</div>`;
+}
+
+/* ----- Тест ----- */
+const PRAISE = ['Верно!', 'Отлично!', 'Так держать!', 'В точку!', 'Блестяще!'];
+function startTest(topic) {
+  const qs = shuffle(S.questions.filter(q => q.topic === topic)).slice(0, 10);
+  if (!qs.length) return;
+  S.test = { topic, i: 0, sel: null, checked: false, correct: 0, combo: 0, mood: 'happy', say: 'Подумай и выбери ответ!', fresh: true,
+    items: qs.map(q => ({ text: q.text, explain: q.explain, opts: shuffle(q.options.map((t, i) => ({ t, ok: i === q.correctIndex }))) })) };
+  S.tab = 'test'; render(); scrollTo(0, 0);
+}
+function testView() {
+  const T = S.test, q = T.items[T.i], n = T.items.length, done = Math.round((T.i + (T.checked ? 1 : 0)) / n * 100);
+  const right = q.opts.find(o => o.ok);
+  const body = `<div class="${T.fresh ? 'enter' : ''}">
+  <div class="t-top"><button class="x" data-act="quit" aria-label="Выйти из теста">${svg('x')}</button><div class="t-track"><div class="t-fill" style="width:${done}%"></div></div>${T.combo >= 2 ? `<div class="combo" title="Верных ответов подряд">${svg('flame')}${T.combo}</div>` : ''}</div>
+  <div class="q-wrap"><div class="q-mascot"><div class="bubble">${T.say}</div>${mascot(T.mood)}</div>
+  <div class="card"><div class="q-meta">Вопрос ${T.i + 1} из ${n} · ${esc(T.topic)}</div><div class="q-text">${esc(q.text)}</div>
+  ${q.opts.map((o, j) => { let c = 'ans'; if (T.checked) c += o.ok ? ' ok' : j === T.sel ? ' no' : ' dim'; else if (j === T.sel) c += ' sel'; return `<button class="${c}" data-act="pick" data-j="${j}"><span class="k">${'ABCD'[j] || j + 1}</span><span>${esc(o.t)}</span></button>`; }).join('')}
+  </div></div></div>`;
+  T.fresh = false;
+  const ex = q.explain ? `<p>${esc(q.explain)}</p>` : '';
+  let foot;
+  if (!T.checked) foot = `<div class="foot"><div class="foot-in"><button class="btn" data-act="check" ${T.sel == null ? 'disabled' : ''}>Проверить</button></div></div>`;
+  else {
+    const ok = q.opts[T.sel].ok, last = T.i === n - 1;
+    foot = `<div class="foot ${ok ? 'ok' : 'no'}"><div class="foot-in"><div class="fb"><h3>${ok ? T.praise : 'Неверно'}</h3>${ok ? ex : `<p>Правильный ответ: ${esc(right.t)}</p>${ex}`}</div><button class="btn ${ok ? 'green' : 'red'}" data-act="next">${last ? 'Завершить' : 'Дальше'}</button></div></div>`;
   }
+  return body + foot;
+}
+function pick(j) { const T = S.test; if (T.checked) return; T.sel = j; render(); }
+function check() {
+  const T = S.test; if (T.checked || T.sel == null) return;
+  const ok = T.items[T.i].opts[T.sel].ok; T.checked = true;
+  if (ok) { T.correct++; T.combo++; T.mood = 'happy'; T.praise = PRAISE[Math.random() * PRAISE.length | 0]; T.say = T.combo >= 3 ? `Серия из ${T.combo} ответов!` : 'Так держать!'; }
+  else { T.combo = 0; T.mood = 'sad'; T.say = 'Не страшно, ошибки помогают учиться.'; }
+  render();
+}
+function next() {
+  const T = S.test; if (!T.checked) return;
+  if (T.i === T.items.length - 1) return finishTest();
+  T.i++; T.sel = null; T.checked = false; T.mood = 'happy'; T.say = 'Следующий вопрос. Ты справишься!'; T.fresh = true; render(); scrollTo(0, 0);
+}
+async function finishTest() {
+  const T = S.test, total = T.items.length, p = Math.round(T.correct / total * 100);
+  const prevRs = S.results.filter(r => r.topic === T.topic), prev = prevRs.length ? Math.max(...prevRs.map(pct)) : -1;
+  const rec = { studentId: S.user.uid, studentName: S.user.name, group: S.user.group || null, topic: T.topic, score: T.correct, total, date: Date.now() };
+  S.last = { rec, p, topic: T.topic, newBest: prev >= 0 && p > prev, maxCombo: T.combo };
+  S.results.unshift(rec); S.test = null; S.tab = 'result'; render(); scrollTo(0, 0);
+  if (p >= 50) setTimeout(confetti, 300);
+  try { await db.collection('results').add(rec); } catch (e) { toast('Результат не сохранился: ' + (e.code || e.message), 'bad'); }
+}
+function resultView() {
+  const L = S.last, s = starsOf(L.p), mood = L.p >= 70 ? 'happy' : L.p >= 50 ? 'neutral' : 'sad';
+  const title = L.p === 100 ? 'Идеально!' : L.p >= 70 ? 'Отличный результат!' : L.p >= 50 ? 'Хорошая работа!' : 'Давай попробуем ещё раз';
+  const sub = L.p >= 50 ? 'Ты заметно продвинулся в теме «' + esc(L.topic) + '».' : 'Повтори материал темы «' + esc(L.topic) + '» и пройди тест снова.';
+  return `<div class="res enter">${mascot(mood)}${L.newBest ? '<div class="record">Новый рекорд!</div>' : ''}<h1>${title}</h1><p class="sub">${sub}</p>
+  <div class="big-stars">${[0, 1, 2].map(k => starSvg(k < s, k)).join('')}</div>
+  <div class="rs"><div><b class="cnt" data-to="${L.rec.score}" data-suf="/${L.rec.total}">0</b><span>верных ответов</span></div><div><b class="cnt" data-to="${L.p}" data-suf="%">0</b><span>точность</span></div><div><b class="cnt" data-to="${L.rec.score * 10}" data-suf=" XP">0</b><span>опыта получено</span></div></div>
+  <div class="row"><button class="btn green" data-act="again">Пройти ещё раз</button><button class="btn ghost" data-act="home">К темам</button></div></div>`;
+}
+
+/* ----- Преподаватель ----- */
+function byTopic() {
+  const m = new Map(); S.questions.forEach(q => { if (!m.has(q.topic)) m.set(q.topic, []); });
+  S.all.forEach(r => { if (!m.has(r.topic)) m.set(r.topic, []); m.get(r.topic).push(pct(r)); });
+  return [...m].map(([name, a]) => ({ name, n: a.length, avg: a.length ? Math.round(a.reduce((x, y) => x + y, 0) / a.length) : null }));
+}
+const pill = p => `<span class="pill ${p >= 70 ? 'ok' : p >= 50 ? 'mid' : 'no'}">${p}%</span>`;
+const resRows = a => a.map(r => `<tr><td>${esc(r.studentName)}</td><td>${esc(r.group || '—')}</td><td>${esc(r.topic)}</td><td>${r.score}/${r.total} ${pill(pct(r))}</td><td>${fmtDate(r.date)}</td></tr>`).join('');
+const resTable = a => `<div class="tw card" style="padding:0"><table><thead><tr><th>Студент</th><th>Группа</th><th>Тема</th><th>Результат</th><th>Дата</th></tr></thead><tbody>${resRows(a)}</tbody></table></div>`;
+
+function tOverview() {
+  const bt = byTopic(), all = S.all, avg = all.length ? Math.round(all.reduce((a, r) => a + pct(r), 0) / all.length) : 0;
+  const studs = new Set(all.map(r => r.studentId || r.studentName)).size;
+  return `<div class="enter"><div class="stats stagger" style="margin-top:0">
+  <div style="--i:0">${tile('#4c6fff', '#3753d6', 'list', S.questions.length, 'вопросов в банке')}</div>
+  <div style="--i:1">${tile('#8e6cff', '#6f4de0', 'grid', bt.length, 'тем')}</div>
+  <div style="--i:2">${tile('#ff9f43', '#e07f1f', 'check', all.length, 'прохождений')}</div>
+  <div style="--i:3">${tile('#2fc67a', '#1fa561', 'target', avg, 'средний результат', '%')}</div></div>
+  <h2 class="sec">Средний результат по темам</h2>
+  ${bt.length ? `<div class="card bars">${bt.map((t, i) => `<div class="bar-r"><span>${esc(t.name)}</span><div class="track"><div class="fill" style="--c:${t.avg == null ? '#cfd6f3' : t.avg >= 70 ? '#2fc67a' : t.avg >= 50 ? '#ff9f43' : '#ff5b6e'}" data-w="${t.avg ?? 0}"></div></div><em>${t.avg == null ? '—' : t.avg + '%'}</em></div>`).join('')}</div>` : '<div class="empty">Добавьте первые вопросы на вкладке «Вопросы».</div>'}
+  <h2 class="sec">Последние прохождения (студентов: ${studs})</h2>
+  ${all.length ? resTable(all.slice(0, 6)) : '<div class="empty">Пока никто не проходил тесты.</div>'}</div>`;
+}
+function tQuestions() {
+  const topics = [...new Set(S.questions.map(q => q.topic))];
+  return `<div class="enter"><h2 class="sec" style="margin-top:4px">Новый вопрос</h2>
+  <form class="card qform" data-form="question" autocomplete="off">
+    <label class="f"><span>Тема</span><input class="in" name="topic" list="tl" required maxlength="60" placeholder="например, Основы ООП"><datalist id="tl">${topics.map(t => `<option value="${esc(t)}">`).join('')}</datalist></label>
+    <label class="f"><span>Текст вопроса</span><textarea class="in" name="text" required maxlength="400"></textarea></label>
+    <div class="f"><span>Варианты ответа (отметьте правильный)</span>${[0, 1, 2, 3].map(i => `<div class="optrow"><input type="radio" name="correct" value="${i}" ${i === 0 ? 'checked' : ''} aria-label="Правильный вариант ${i + 1}"><input class="in" name="o${i}" required maxlength="200" placeholder="Вариант ${i + 1}"></div>`).join('')}</div>
+    <label class="f"><span>Пояснение к ответу (необязательно)</span><input class="in" name="explain" maxlength="300"></label>
+    <button class="btn" type="submit">Добавить вопрос</button>
+  </form>
+  <h2 class="sec">Банк вопросов (${S.questions.length})</h2>
+  ${topics.length ? topics.map(t => { const qs = S.questions.filter(q => q.topic === t); return `<div class="qgroup"><h3><span>${esc(t)}</span><span style="color:var(--muted)">${qs.length}</span></h3>${qs.map(q => `<div class="qitem"><div class="qt"><b>${esc(q.text)}</b>${q.options.map((o, i) => `<small class="${i === q.correctIndex ? 'c' : ''}">${i === q.correctIndex ? 'Верно: ' : ''}${esc(o)}</small>`).join('')}</div><button class="icon-btn" data-act="delq" data-id="${q.id}" aria-label="Удалить вопрос">${svg('trash')}</button></div>`).join('')}</div>`; }).join('') : '<div class="empty">Вопросов пока нет.</div>'}</div>`;
+}
+function tResults() {
+  const topics = [...new Set(S.all.map(r => r.topic))], a = S.filter ? S.all.filter(r => r.topic === S.filter) : S.all;
+  return `<div class="enter"><h2 class="sec" style="margin-top:4px">Результаты студентов</h2>
+  <div class="filter"><select class="in" data-change="filter"><option value="">Все темы</option>${topics.map(t => `<option ${t === S.filter ? 'selected' : ''} value="${esc(t)}">${esc(t)}</option>`).join('')}</select><span style="font-weight:800;color:var(--muted)">Записей: ${a.length}</span></div>
+  ${a.length ? resTable(a) : '<div class="empty">Нет результатов.</div>'}</div>`;
+}
+
+/* ===== События ===== */
+const ACT = {
+  mode: (_, b) => { S.authMode = b.dataset.m; render(); },
+  logout: () => auth.signOut(),
+  topic: (_, b) => startTest(topicList()[+b.dataset.i].name),
+  pick: (_, b) => pick(+b.dataset.j),
+  check, next,
+  quit: () => { if (confirm('Выйти из теста? Прогресс не сохранится.')) { S.test = null; S.tab = 'topics'; render(); } },
+  again: () => startTest(S.last.topic),
+  home: () => { S.tab = 'topics'; render(); },
+  delq: async (_, b) => {
+    if (!confirm('Удалить этот вопрос из банка?')) return;
+    try { await db.collection('questions').doc(b.dataset.id).delete(); S.questions = S.questions.filter(q => q.id !== b.dataset.id); render(); toast('Вопрос удалён', 'good'); }
+    catch (e) { toast('Не удалось удалить: ' + (e.code || e.message), 'bad'); }
+  }
+};
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-tab]');
+  if (t) { S.tab = t.dataset.tab; S.test = null; render(); scrollTo(0, 0); return; }
+  const b = e.target.closest('[data-act]'); if (b && ACT[b.dataset.act]) ACT[b.dataset.act](b.dataset, b);
 });
-
-el("logoutBtn").onclick = () => auth.signOut();
-
-/* ======= 4. РЕАКЦИЯ НА СОСТОЯНИЕ АВТОРИЗАЦИИ ======= */
-if (configured) {
-  auth.onAuthStateChanged(async (user) => {
-    if (!user) {
-      currentUser = null;
-      show("authView"); hide("studentView"); hide("teacherView"); hide("logoutBtn");
-      el("whoBadge").textContent = "";
-      return;
-    }
-    const snap = await db.collection("users").doc(user.uid).get();
-    const data = snap.exists ? snap.data() : { name: user.email, role: "student" };
-    currentUser = { uid: user.uid, name: data.name, role: data.role, group: data.group };
-
-    hide("authView"); show("logoutBtn");
-    el("whoBadge").textContent = currentUser.name + " · " + (currentUser.role === "teacher" ? "преподаватель" : "студент");
-
-    if (currentUser.role === "teacher") {
-      show("teacherView"); hide("studentView");
-      loadResults();
-    } else {
-      show("studentView"); hide("teacherView");
-      el("studentName").textContent = currentUser.name;
-      loadTopics();
-      loadHistory();
-    }
-  });
-}
-
-/* ======= 5. СТУДЕНТ: ТЕМЫ И ТЕСТ ======= */
-async function loadTopics() {
-  const snap = await db.collection("questions").get();
-  const topics = [...new Set(snap.docs.map(d => d.data().topic))];
-  const sel = el("topicSelect");
-  sel.innerHTML = '<option value="">— выберите тему —</option>' +
-    topics.map(t => `<option value="${t}">${t}</option>`).join("");
-}
-el("topicSelect").onchange = (e) => { el("startTestBtn").disabled = !e.target.value; };
-
-el("startTestBtn").onclick = async () => {
-  currentTopic = el("topicSelect").value;
-  const snap = await db.collection("questions").where("topic", "==", currentTopic).get();
-  currentQuestions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderTest();
-};
-
-function renderTest() {
-  hide("pickArea");
-  const form = el("testForm");
-  form.innerHTML = currentQuestions.map((q, i) => `
-    <div class="card">
-      <div class="qtag">// вопрос ${i + 1} из ${currentQuestions.length}</div>
-      <div class="qtext">${q.text}</div>
-      ${q.options.map((opt, j) => `
-        <label class="opt"><input type="radio" name="q${i}" value="${j}" required>${opt}</label>
-      `).join("")}
-    </div>
-  `).join("");
-  show("testForm"); show("submitTestBtn");
-}
-
-el("submitTestBtn").onclick = async () => {
-  const form = el("testForm");
-  let answered = 0, correct = 0;
-  currentQuestions.forEach((q, i) => {
-    const picked = form.querySelector(`input[name="q${i}"]:checked`);
-    if (picked) { answered++; if (parseInt(picked.value) === q.correctIndex) correct++; }
-  });
-  if (answered < currentQuestions.length) { alert("Ответьте на все вопросы теста."); return; }
-
-  await db.collection("results").add({
-    studentId: currentUser.uid,
-    studentName: currentUser.name,
-    group: currentUser.group || null,
-    topic: currentTopic,
-    score: correct,
-    total: currentQuestions.length,
-    date: Date.now()
-  });
-
-  hide("testForm"); hide("submitTestBtn");
-  const pct = Math.round((correct / currentQuestions.length) * 100);
-  el("scoreVal").textContent = correct + " / " + currentQuestions.length;
-  el("scoreVal").className = "score " + (pct >= 60 ? "ok" : "bad");
-  el("scoreSub").textContent = "Результат: " + pct + "% правильных ответов";
-  show("resultArea");
-  loadHistory();
-};
-
-el("backToPickBtn").onclick = () => {
-  hide("resultArea"); show("pickArea");
-  el("topicSelect").value = ""; el("startTestBtn").disabled = true;
-};
-
-async function loadHistory() {
-  const snap = await db.collection("results").where("studentId", "==", currentUser.uid).orderBy("date", "desc").limit(15).get();
-  const list = el("historyList");
-  if (snap.empty) { list.innerHTML = '<li class="empty" style="border:none">Вы ещё не проходили тесты</li>'; return; }
-  list.innerHTML = snap.docs.map(d => {
-    const r = d.data();
-    const date = new Date(r.date).toLocaleDateString("ru-RU");
-    return `<li><span>${r.topic}</span><span class="tag">${r.score}/${r.total} · ${date}</span></li>`;
-  }).join("");
-}
-
-/* ======= 6. ПРЕПОДАВАТЕЛЬ: ВОПРОСЫ И РЕЗУЛЬТАТЫ ======= */
-el("questionForm").addEventListener("submit", async (e) => {
+document.addEventListener('change', e => {
+  if (e.target.matches('[data-change=filter]')) { S.filter = e.target.value; render(); }
+  if (e.target.name === 'role') { const g = $('#grp'); if (g) g.style.display = e.target.value === 'teacher' ? 'none' : ''; }
+});
+document.addEventListener('keydown', e => {
+  if (S.tab !== 'test' || !S.test || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  const T = S.test;
+  if (e.key >= '1' && e.key <= '4' && !T.checked) { const j = +e.key - 1; if (j < T.items[T.i].opts.length) pick(j); }
+  else if (e.key === 'Enter') { e.preventDefault(); T.checked ? next() : check(); }
+});
+document.addEventListener('submit', async e => {
   e.preventDefault();
-  await db.collection("questions").add({
-    topic: el("qTopic").value.trim(),
-    text: el("qText").value.trim(),
-    options: [el("opt0").value, el("opt1").value, el("opt2").value, el("opt3").value],
-    correctIndex: parseInt(el("correctIdx").value),
-    authorId: currentUser.uid,
-    createdAt: Date.now()
-  });
-  e.target.reset();
-  alert("Вопрос добавлен в банк заданий.");
+  const f = e.target, k = f.dataset.form, btn = f.querySelector('[type=submit]'); if (btn) btn.disabled = true;
+  const err = m => { const el = $('#ferr') || f; if ($('#ferr')) el.innerHTML = m ? `<div class="formerr">${esc(m)}</div>` : ''; else toast(m, 'bad'); };
+  try {
+    if (!configured) throw { message: 'Firebase не настроен.' };
+    const v = n => f.elements[n].value.trim();
+    if (k === 'login') await auth.signInWithEmailAndPassword(v('email'), f.elements.password.value);
+    if (k === 'register') {
+      const role = f.elements.role.value;
+      S.pending = { name: v('uname'), role, group: role === 'student' ? (v('group') || null) : null };
+      try { const c = await auth.createUserWithEmailAndPassword(v('email'), f.elements.password.value); await db.collection('users').doc(c.user.uid).set({ ...S.pending, createdAt: Date.now() }); }
+      catch (x) { S.pending = null; throw x; }
+      S.pending = null;
+    }
+    if (k === 'question') {
+      const doc = { topic: v('topic'), text: v('text'), options: [0, 1, 2, 3].map(i => v('o' + i)), correctIndex: +f.elements.correct.value, explain: v('explain') || null, authorId: S.user.uid, createdAt: Date.now() };
+      const r = await db.collection('questions').add(doc); S.questions.push({ id: r.id, ...doc }); render(); toast('Вопрос добавлен в банк', 'good'); return;
+    }
+  } catch (x) { err(ERR[x.code] || x.message || 'Что-то пошло не так.'); if (btn) btn.disabled = false; }
 });
 
-async function loadResults() {
-  const snap = await db.collection("results").orderBy("date", "desc").limit(50).get();
-  const body = el("resultsBody");
-  el("resultsEmpty").classList.toggle("hidden", !snap.empty);
-  body.innerHTML = snap.docs.map(d => {
-    const r = d.data();
-    const pct = Math.round((r.score / r.total) * 100);
-    const date = new Date(r.date).toLocaleDateString("ru-RU");
-    return `<tr><td>${r.studentName}</td><td>${r.topic}</td>
-      <td><span class="pill ${pct >= 60 ? 'ok' : 'bad'}">${r.score}/${r.total}</span></td>
-      <td>${date}</td></tr>`;
-  }).join("");
-}
+/* ===== Старт ===== */
+if (configured) {
+  auth.onAuthStateChanged(async u => {
+    if (!u) { S.user = null; S.test = null; S.tab = 'auth'; S.loading = false; render(); return; }
+    let d = S.pending;
+    if (!d) { try { const s = await db.collection('users').doc(u.uid).get(); d = s.exists ? s.data() : null; } catch (e) {} }
+    d = d || { name: u.email, role: 'student', group: null };
+    S.user = { uid: u.uid, name: d.name, role: d.role, group: d.group };
+    S.tab = d.role === 'teacher' ? 'overview' : 'topics'; S.loading = true; render();
+    try { await loadQuestions(); d.role === 'teacher' ? await loadAllResults() : await loadMyResults(); }
+    catch (e) { toast('Не удалось загрузить данные: ' + (e.code || e.message), 'bad'); }
+    S.loading = false; render();
+  });
+} else render();
 </script>
 </body>
 </html>
