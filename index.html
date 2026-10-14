@@ -5,52 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#4c6fff">
 <title>Кодик — тесты по технологиям программирования</title>
+<script>try{var t=localStorage.getItem('kodik-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--blue:#4c6fff;--blue-d:#3753d6;--green:#2fc67a;--green-d:#1fa561;--red:#ff5b6e;--red-d:#d93a4e;--orange:#ff9f43;--purple:#8e6cff;--yellow:#ffd23f;--ink:#25264a;--muted:#7b7ea3;--bg:#f2f5ff;--line:#e3e8fb}
+:root{--blue:#4c6fff;--blue-d:#3753d6;--green:#2fc67a;--green-d:#1fa561;--red:#ff5b6e;--red-d:#d93a4e;--orange:#ff9f43;--purple:#8e6cff;--yellow:#ffd23f;
+--ink:#25264a;--muted:#7b7ea3;--bg:#f2f5ff;--card:#fff;--hdr:rgba(255,255,255,.97);--line:#e3e8fb;--soft:#eef1fb;--soft2:#f7f9ff;--sel:#eef1ff;--okbg:#e5f9ee;--nobg:#ffe9ec;--ambbg:#fff1de;--mono:'JetBrains Mono',ui-monospace,Consolas,monospace}
+[data-theme=dark]{--ink:#eceeff;--muted:#a0a5d6;--bg:#0e0f23;--card:#1a1c3b;--hdr:rgba(26,28,59,.97);--line:#2c3063;--soft:#23265a;--soft2:#20224d;--sel:#26306b;--okbg:#10382c;--nobg:#40202e;--ambbg:#3d2e12;color-scheme:dark}
 *{box-sizing:border-box;margin:0}
-body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;padding-bottom:84px;-webkit-font-smoothing:antialiased}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;padding-bottom:84px;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 button,input,select,textarea{font-family:inherit;color:inherit}
+svg{display:block}
 .blobs i{position:fixed;border-radius:50%;filter:blur(70px);z-index:-1;opacity:.32;animation:drift 18s ease-in-out infinite alternate}
+[data-theme=dark] .blobs i{opacity:.16}
 .blobs i:nth-child(1){width:340px;height:340px;background:var(--purple);top:-90px;left:-90px}
 .blobs i:nth-child(2){width:300px;height:300px;background:var(--blue);bottom:-70px;right:-70px;animation-delay:-6s}
-.blobs i:nth-child(3){width:220px;height:220px;background:var(--yellow);top:42%;right:18%;animation-delay:-12s;opacity:.22}
+.blobs i:nth-child(3){width:220px;height:220px;background:var(--yellow);top:42%;right:18%;animation-delay:-12s;opacity:.2}
 @keyframes drift{to{transform:translate(60px,40px) scale(1.15)}}
-.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:2px solid var(--line)}
+.top{position:sticky;top:0;z-index:20;background:var(--hdr);border-bottom:2px solid var(--line);transition:background .3s}
 .top-in{max-width:1040px;margin:0 auto;padding:10px 18px;padding-top:calc(10px + env(safe-area-inset-top));display:flex;align-items:center;gap:12px}
 .logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:23px;letter-spacing:-.02em}
 .logo .mascot{width:36px;height:36px}
 .spacer{flex:1}
-.chip{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:14px;font-weight:800;font-size:14px;border:2px solid var(--line);background:#fff}
+.chip{display:flex;align-items:center;gap:6px;white-space:nowrap;padding:7px 12px;border-radius:14px;font-weight:800;font-size:14px;border:2px solid var(--line);background:var(--card)}
 .avatar{width:38px;height:38px;border-radius:50%;background:var(--purple);color:#fff;display:grid;place-items:center;font-weight:900;box-shadow:0 3px 0 #6f4de0}
-.icon-btn{width:38px;height:38px;border-radius:12px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--muted);transition:.15s}
-.icon-btn:hover{color:var(--red);border-color:#ffc9d0}
-.icon-btn svg{width:20px;height:20px}
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:#fff;border-top:2px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:2px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;color:var(--muted);transition:.2s;flex:none}
+.icon-btn:hover{color:var(--blue);border-color:#b9c4f5}
+.icon-btn.del:hover{color:var(--red);border-color:#ffc9d0}
+.icon-btn svg{width:20px;height:20px;transition:transform .5s}
+.icon-btn[data-act=theme]:hover svg{transform:rotate(90deg)}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--card);border-top:2px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
 .nav button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:800;font-size:11px;color:var(--muted);padding:6px;border-radius:14px;cursor:pointer;transition:.15s}
 .nav button svg{width:24px;height:24px}
-.nav button.on{color:var(--blue);background:#eef1ff}
+.nav button.on{color:var(--blue);background:var(--sel)}
 .testing .nav{display:none}
 @media(min-width:760px){body{padding-bottom:0}.nav{position:static;border:0;background:none;padding:0;gap:6px;margin-left:18px}.nav button{flex:none;flex-direction:row;font-size:15px;padding:9px 14px}}
-svg{display:block}
 main{max-width:1040px;margin:0 auto;padding:22px 18px 40px}
-.testing main{padding-bottom:150px}
+.testing main{padding-bottom:200px}
 .enter{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
 .stagger>*{animation:rise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*60ms)}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}}
 h2.sec{font-size:22px;font-weight:900;margin:26px 0 14px}
-.card{background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:20px}
-.btn{border:0;border-radius:16px;padding:14px 24px;font-weight:900;font-size:16px;background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-d);cursor:pointer;transition:transform .08s,box-shadow .08s,filter .15s;letter-spacing:.01em}
-.btn:hover{filter:brightness(1.06)}
+.card{background:var(--card);border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:20px;transition:background .3s}
+.btn{border:0;border-radius:16px;padding:14px 24px;font-weight:900;font-size:16px;background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-d);cursor:pointer;transition:transform .08s,box-shadow .08s,filter .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{filter:brightness(1.07)}
 .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--blue-d)}
 .btn.green{background:var(--green);box-shadow:0 5px 0 var(--green-d)}.btn.green:active{box-shadow:0 1px 0 var(--green-d)}
 .btn.red{background:var(--red);box-shadow:0 5px 0 var(--red-d)}.btn.red:active{box-shadow:0 1px 0 var(--red-d)}
-.btn.ghost{background:#fff;color:var(--blue);border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}.btn.ghost:active{box-shadow:0 1px 0 var(--line)}
-.btn:disabled{background:#e3e8fb;color:#a3a8cc;box-shadow:0 5px 0 #cfd5ee;cursor:default;filter:none}
+.btn.ghost{background:var(--card);color:var(--blue);border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}.btn.ghost:active{box-shadow:0 1px 0 var(--line)}
+.btn:disabled{background:var(--soft);color:var(--muted);box-shadow:0 5px 0 var(--line);cursor:default;filter:none;opacity:.8}
 .btn.wide{width:100%}
-.btn.sm{padding:9px 14px;font-size:14px;border-radius:12px;box-shadow:0 3px 0 var(--blue-d)}
+.btn.sm{padding:9px 16px;font-size:14px;border-radius:12px;box-shadow:0 3px 0 var(--blue-d)}.btn.sm.ghost{box-shadow:0 3px 0 var(--line)}
+.btn svg{width:18px;height:18px}
 /* mascot */
 .mascot{width:100%;height:auto;overflow:visible}
 .mascot .m-float{animation:float 3s ease-in-out infinite}
@@ -63,50 +70,56 @@ h2.sec{font-size:22px;font-weight:900;margin:26px 0 14px}
 @keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
 @keyframes ant{50%{transform:scale(1.25)}}
 /* auth */
-.auth{display:grid;gap:26px;align-items:center;max-width:900px;margin:10px auto}
+.auth{display:grid;gap:26px;align-items:center;max-width:920px;margin:10px auto}
 @media(min-width:800px){.auth{grid-template-columns:1fr 1fr}}
 .auth-l{text-align:center}
-.auth-l .mascot{width:min(52vw,230px);margin:0 auto 10px}
+.auth-l .mascot{width:min(44vw,190px);margin:0 auto 10px}
 .auth-l h1{font-size:clamp(26px,5vw,38px);font-weight:900;line-height:1.1;margin-bottom:10px}
-.auth-l p{color:var(--muted);font-weight:700;line-height:1.45;max-width:380px;margin:0 auto}
-.seg{display:flex;background:#eef1fb;border-radius:16px;padding:4px;margin-bottom:18px}
+.auth-l p{color:var(--muted);font-weight:700;line-height:1.45;max-width:380px;margin:0 auto 16px}
+.auth-l .ide{max-width:380px;margin:0 auto;text-align:left}
+.seg{display:flex;background:var(--soft);border-radius:16px;padding:4px;margin-bottom:18px}
 .seg button{flex:1;border:0;background:none;padding:10px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;color:var(--muted);transition:.2s}
-.seg button.on{background:#fff;color:var(--blue);box-shadow:0 2px 0 var(--line)}
+.seg button.on{background:var(--card);color:var(--blue);box-shadow:0 2px 0 var(--line)}
 .f{display:block;margin-bottom:14px}
 .f>span{display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:6px}
-.in{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font-size:16px;font-weight:600;background:#fff;transition:.15s}
-.in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(76,111,255,.15)}
+.in{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font-size:16px;font-weight:600;background:var(--card);transition:.15s}
+.in.mono,textarea.mono{font-family:var(--mono);font-size:14px;font-weight:500}
+.in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(76,111,255,.18)}
 textarea.in{resize:vertical;min-height:70px}
 .roles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .role{position:relative}
 .role input{position:absolute;opacity:0;inset:0;cursor:pointer}
 .role div{border:2px solid var(--line);border-radius:16px;padding:12px;text-align:center;font-weight:800;transition:.15s;box-shadow:0 3px 0 var(--line)}
-.role input:checked+div{border-color:var(--blue);background:#eef1ff;color:var(--blue);box-shadow:0 3px 0 #b9c4f5}
+.role input:checked+div{border-color:var(--blue);background:var(--sel);color:var(--blue);box-shadow:0 3px 0 #b9c4f5}
 .role input:focus-visible+div{outline:3px solid rgba(76,111,255,.4)}
-.formerr{background:#ffe9ec;color:var(--red-d);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:14px}
-.warn{background:#fff4dc;color:#8a5a00;border-radius:12px;padding:10px 12px;font-weight:700;font-size:13px;margin-bottom:14px}
+.formerr{background:var(--nobg);color:var(--red-d);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:14px}
+[data-theme=dark] .formerr{color:#ff8e9c}
+.warn{background:var(--ambbg);color:#a86a00;border-radius:12px;padding:10px 12px;font-weight:700;font-size:13px;margin-bottom:14px}
+.hid{display:none!important}
+.hint{font-size:12px;font-weight:700;color:var(--muted);margin-top:5px;line-height:1.4}
 /* hero & stats */
 .hero{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#4c6fff,#8e6cff);border-radius:28px;padding:20px 22px;color:#fff;box-shadow:0 6px 0 #3a52cc;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;right:-40px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.1)}
 .hero .mascot{width:92px;flex:none}
 .hero-t{flex:1;min-width:0;position:relative;z-index:1}
-.bubble{background:#fff;color:var(--ink);padding:12px 16px;border-radius:18px;font-weight:800;line-height:1.3;position:relative;display:inline-block}
-.bubble::before{content:'';position:absolute;left:-8px;top:22px;border:8px solid transparent;border-right-color:#fff;border-left:0}
+.bubble{background:var(--card);color:var(--ink);padding:12px 16px;border-radius:18px;font-weight:800;line-height:1.3;position:relative;display:inline-block;transition:background .3s}
+.bubble::before{content:'';position:absolute;left:-8px;top:22px;border:8px solid transparent;border-right-color:var(--card);border-left:0}
+.hero .bubble{background:#fff;color:#25264a}.hero .bubble::before{border-right-color:#fff}
 .lvl{margin-top:14px}
 .lvl-r{display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:6px}
-.track{height:12px;background:#eef1fb;border-radius:20px;overflow:hidden}
+.track{height:12px;background:var(--soft);border-radius:20px;overflow:hidden}
 .track.dark{background:rgba(255,255,255,.28)}
 .fill{height:100%;border-radius:20px;background:var(--c,var(--green));width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 4px}
 @media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:#fff;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:20px;padding:14px;display:flex;align-items:center;gap:12px}
+.stat{background:var(--card);border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:20px;padding:14px;display:flex;align-items:center;gap:12px}
 .stat .ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;flex:none;background:var(--c);box-shadow:0 4px 0 var(--d);color:#fff}
 .stat .ic svg{width:24px;height:24px}
 .stat b{display:block;font-size:24px;font-weight:900;line-height:1}
 .stat span{font-size:12px;color:var(--muted);font-weight:800}
 /* topics */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px}
-.tcard{background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:16px;cursor:pointer;transition:transform .15s,box-shadow .15s;text-align:left;display:flex;flex-direction:column;gap:12px}
+.tcard{background:var(--card);border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:16px;cursor:pointer;transition:transform .15s,box-shadow .15s;text-align:left;display:flex;flex-direction:column;gap:12px}
 .tcard:hover{transform:translateY(-4px);box-shadow:0 9px 0 var(--line)}
 .tcard:active{transform:translateY(2px);box-shadow:0 2px 0 var(--line)}
 .tcard:focus-visible{outline:3px solid rgba(76,111,255,.45)}
@@ -116,49 +129,101 @@ textarea.in{resize:vertical;min-height:70px}
 .tcard h3{font-size:18px;font-weight:900;line-height:1.2}
 .tcard .meta{font-size:13px;font-weight:700;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
 .stars{display:flex;gap:2px}
-.star{width:20px;height:20px;fill:#e3e8fb;stroke:#d3daf3;stroke-width:1.5;stroke-linejoin:round}
+.star{width:20px;height:20px;fill:var(--line);stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}
 .star.on{fill:#ffc531;stroke:#e59f00}
-.empty{border:2px dashed #cfd6f3;border-radius:22px;padding:30px;text-align:center;color:var(--muted);font-weight:700}
+.empty{border:2px dashed var(--line);border-radius:22px;padding:30px;text-align:center;color:var(--muted);font-weight:700}
 /* test */
-.t-top{display:flex;align-items:center;gap:14px;margin-bottom:20px;max-width:820px;margin-inline:auto}
-.x{width:44px;height:44px;border-radius:14px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;flex:none;color:var(--muted);box-shadow:0 3px 0 var(--line)}
+.t-top{display:flex;align-items:center;gap:14px;margin-bottom:20px;max-width:860px;margin-inline:auto}
+.x{width:44px;height:44px;border-radius:14px;border:2px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;flex:none;color:var(--muted);box-shadow:0 3px 0 var(--line)}
 .x svg{width:20px;height:20px}
-.t-track{flex:1;height:16px;border-radius:20px;background:#e1e6f7;overflow:hidden}
+.t-track{flex:1;height:16px;border-radius:20px;background:var(--soft);overflow:hidden}
 .t-fill{height:100%;background:var(--green);border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1);position:relative}
 .t-fill::after{content:'';position:absolute;left:8px;right:8px;top:3px;height:4px;border-radius:4px;background:rgba(255,255,255,.4)}
-.combo{display:flex;align-items:center;gap:4px;font-weight:900;color:#e07f1f;background:#fff1de;border-radius:14px;padding:6px 12px;animation:pop .4s}
+.combo{display:flex;align-items:center;gap:4px;font-weight:900;color:#e07f1f;background:var(--ambbg);border-radius:14px;padding:6px 12px;animation:pop .4s}
 .combo svg{width:18px;height:18px;fill:#ff9f43;stroke:#e07f1f}
-.q-wrap{display:grid;gap:16px;max-width:820px;margin:0 auto}
+.q-wrap{display:grid;gap:16px;max-width:860px;margin:0 auto}
 @media(min-width:760px){.q-wrap{grid-template-columns:150px 1fr;align-items:start}}
 .q-mascot{display:flex;align-items:center;gap:12px}
-@media(min-width:760px){.q-mascot{flex-direction:column;align-items:stretch;text-align:center}}
 .q-mascot .mascot{width:84px;flex:none}
-@media(min-width:760px){.q-mascot .mascot{width:120px;margin:0 auto}}
 .q-mascot .bubble{font-size:14px;padding:10px 12px}
 .q-mascot .bubble::before{left:-8px;top:50%;margin-top:-8px}
-@media(min-width:760px){.q-mascot{flex-direction:column-reverse}.q-mascot .bubble::before{left:50%;top:auto;bottom:-8px;margin:0 0 0 -8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}}
-.q-meta{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:8px}
-.q-text{font-size:21px;font-weight:900;line-height:1.35;margin-bottom:18px;white-space:pre-wrap}
-.ans{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:16px;background:#fff;font-weight:700;font-size:16px;margin-bottom:12px;cursor:pointer;transition:transform .08s,box-shadow .08s,border-color .15s,background .15s,opacity .2s}
+@media(min-width:760px){.q-mascot{flex-direction:column-reverse;text-align:center;position:sticky;top:84px}.q-mascot .mascot{width:120px;margin:0 auto}.q-mascot .bubble::before{left:50%;top:auto;bottom:-8px;margin:0 0 0 -8px;border:8px solid transparent;border-top-color:var(--card);border-bottom:0}}
+.q-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:10px}
+.tag{display:inline-flex;align-items:center;gap:5px;background:var(--sel);color:var(--blue);border-radius:10px;padding:3px 10px;font-size:12px;font-weight:900}
+.tag svg{width:14px;height:14px}
+.q-text{font-size:21px;font-weight:900;line-height:1.35;margin-bottom:6px;white-space:pre-wrap}
+.q-hint{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:16px}
+.ans{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:16px;background:var(--card);font-weight:700;font-size:16px;margin-bottom:12px;cursor:pointer;transition:transform .08s,box-shadow .08s,border-color .15s,background .15s,opacity .2s}
 .ans:hover{border-color:#b9c4f5}
 .ans:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
 .ans .k{width:32px;height:32px;border-radius:10px;border:2px solid var(--line);display:grid;place-items:center;font-weight:900;font-size:14px;color:var(--muted);flex:none;transition:.15s}
-.ans.sel{border-color:var(--blue);background:#eef1ff;box-shadow:0 4px 0 #b9c4f5}
+.ans.mu .k{border-radius:9px}.ans.mu .k svg{width:18px;height:18px;opacity:0;transition:.15s;stroke-width:3.2}
+.ans.sel{border-color:var(--blue);background:var(--sel);box-shadow:0 4px 0 #b9c4f5}
 .ans.sel .k{background:var(--blue);border-color:var(--blue);color:#fff}
-.ans.ok{border-color:var(--green);background:#e5f9ee;box-shadow:0 4px 0 #9be3bf;animation:pop .4s}
+.ans.ok{border-color:var(--green);background:var(--okbg);box-shadow:0 4px 0 #2a8f5f;animation:pop .4s}
 .ans.ok .k{background:var(--green);border-color:var(--green);color:#fff}
-.ans.no{border-color:var(--red);background:#ffe9ec;box-shadow:0 4px 0 #ffb5be;animation:shake .4s}
+.ans.no{border-color:var(--red);background:var(--nobg);box-shadow:0 4px 0 #b4404f;animation:shake .4s}
 .ans.no .k{background:var(--red);border-color:var(--red);color:#fff}
+.ans.mu.sel .k svg,.ans.mu.ok .k svg,.ans.mu.no .k svg{opacity:1}
 .ans.dim{opacity:.5;pointer-events:none}
 @keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
 @keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
-.foot{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--line);padding:14px 18px calc(14px + env(safe-area-inset-bottom));z-index:40}
-.foot-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:16px;justify-content:flex-end}
+/* order */
+.ord-ans{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:12px;border:2px dashed var(--line);border-radius:16px;margin-bottom:14px;min-height:64px}
+.ord-ans .arr{color:var(--muted);font-weight:900}
+.slot{width:42px;height:42px;border-radius:12px;border:2px dashed var(--line);background:none;color:var(--muted);font-weight:900;font-size:16px;cursor:default;font-family:inherit}
+.slot.on{border:2px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;box-shadow:0 3px 0 var(--blue-d);animation:pop .3s}
+.ord-ans.ok{border-color:var(--green);background:var(--okbg)}.ord-ans.ok .slot.on{background:var(--green);border-color:var(--green);box-shadow:0 3px 0 var(--green-d)}
+.ord-ans.no{border-color:var(--red);background:var(--nobg);animation:shake .4s}.ord-ans.no .slot.on{background:var(--red);border-color:var(--red);box-shadow:0 3px 0 var(--red-d)}
+.chip2{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:16px;background:var(--card);font-weight:700;font-size:15px;margin-bottom:10px;cursor:pointer;transition:.15s;font-family:inherit}
+.chip2 .k{width:32px;height:32px;border-radius:10px;background:var(--soft);display:grid;place-items:center;font-weight:900;font-size:14px;flex:none}
+.chip2 span:nth-child(2){flex:1;min-width:0;word-break:break-word}
+.chip2.code span:nth-child(2){font-family:var(--mono);font-size:13px}
+.chip2 em{font-style:normal;background:var(--blue);color:#fff;border-radius:50%;width:24px;height:24px;display:grid;place-items:center;font-size:12px;font-weight:900;animation:pop .3s}
+.chip2:hover{border-color:#b9c4f5}
+.chip2.used{opacity:.45;background:var(--soft)}
+.chip2:disabled{cursor:default}
+/* text answer */
+.txt{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:16px;padding:4px 14px;background:var(--card);transition:.2s}
+.txt:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(76,111,255,.18)}
+.txt>span{font-family:var(--mono);color:var(--blue);font-weight:700;font-size:20px}
+.txt input{flex:1;border:0;outline:0;background:none;font:500 16px var(--mono);padding:12px 0;min-width:0}
+.txt.ok{border-color:var(--green);background:var(--okbg)}.txt.no{border-color:var(--red);background:var(--nobg);animation:shake .4s}
+/* ide */
+.ide{border-radius:16px;overflow:hidden;background:#15172f;border:2px solid #2a2e5c;box-shadow:0 5px 0 #0c0d1e;margin:4px 0 14px;text-align:left}
+.ide-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;background:#1e2145;font-family:var(--mono);font-size:12px;color:#8e95d6}
+.ide-bar .dots{display:flex;gap:6px}.ide-bar .dots i{width:10px;height:10px;border-radius:50%;background:#ff5f57}.ide-bar .dots i:nth-child(2){background:#febc2e}.ide-bar .dots i:nth-child(3){background:#28c840}
+.ide-bar .fn{flex:1}.ide-bar em{font-style:normal;background:#2a2e5c;border-radius:8px;padding:2px 8px;font-size:11px}
+.ide-body{display:flex;font:400 14px/1.65 var(--mono);color:#e6e8ff}
+.gut{padding:12px 10px 12px 14px;color:#4f5694;text-align:right;user-select:none;margin:0;font:inherit;background:#181a38;min-width:42px}
+.ide-code{flex:1;overflow-x:auto;min-width:0}
+.ide-in{position:relative;min-width:100%;width:max-content}
+.hl{margin:0;padding:12px 16px;font:inherit;white-space:pre;min-height:calc(1.65em*3 + 24px);tab-size:2}
+.ide-in textarea{position:absolute;inset:0;width:100%;height:100%;border:0;outline:0;resize:none;background:transparent;color:transparent;caret-color:#fff;padding:12px 16px;font:inherit;white-space:pre;overflow:hidden;tab-size:2}
+.ide-in textarea::placeholder{color:#4f5694}
+.ide:focus-within{border-color:var(--blue);box-shadow:0 5px 0 #0c0d1e,0 0 0 4px rgba(76,111,255,.2)}
+.ide.done{opacity:.92}
+.tk-c{color:#6f77b3;font-style:italic}.tk-s{color:#7be0a3}.tk-k{color:#ff7eb6}.tk-n{color:#ffb86b}.tk-t{color:#7ab7ff}
+.ide.snip{box-shadow:none;margin:6px 0 16px}
+.runbar{display:flex;gap:10px;margin-bottom:12px}
+.con{border-radius:16px;background:#15172f;border:2px solid #2a2e5c;overflow:hidden;font-family:var(--mono);font-size:13px}
+.con-h{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#1e2145;color:#8e95d6;font-size:12px}
+.con-h i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pop 1.2s infinite}
+.con-b{padding:12px 14px;color:#8e95d6}
+.cr{display:flex;gap:10px;align-items:flex-start;padding:7px 14px;color:#e6e8ff;animation:rise .35s both;animation-delay:calc(var(--i)*90ms);word-break:break-word}
+.cr svg{width:16px;height:16px;flex:none;margin-top:2px;stroke-width:3.2}
+.cr.good svg{color:#38e08f}.cr.bad svg{color:#ff6b7d}.cr.bad{background:rgba(255,91,110,.08)}
+.con-s{padding:9px 14px;border-top:1px solid #2a2e5c;font-weight:700;display:flex;justify-content:space-between;color:#8e95d6}
+.con-s.ok b{color:#38e08f}.con-s.no b{color:#ff6b7d}
+.foot{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--line);padding:14px 18px calc(14px + env(safe-area-inset-bottom));z-index:40}
+.foot-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:16px;justify-content:flex-end}
 .foot.ok,.foot.no{animation:slideup .4s cubic-bezier(.2,.8,.2,1)}
-.foot.ok{background:#e5f9ee;border-color:#bfeed5}.foot.no{background:#ffe9ec;border-color:#ffc9d0}
+.foot.ok{background:var(--okbg);border-color:#2a8f5f}.foot.no{background:var(--nobg);border-color:#b4404f}
 @keyframes slideup{from{transform:translateY(100%)}}
-.fb{flex:1;min-width:0}.fb h3{font-size:21px;font-weight:900}.fb p{font-size:14px;font-weight:700;margin-top:3px;line-height:1.35}
+.fb{flex:1;min-width:0;max-height:34vh;overflow:auto}.fb h3{font-size:21px;font-weight:900}.fb p{font-size:14px;font-weight:700;margin-top:3px;line-height:1.35}
+.fb code{font-family:var(--mono);font-size:13px;background:rgba(0,0,0,.08);padding:2px 6px;border-radius:6px;white-space:pre-wrap}
 .foot.ok h3{color:var(--green-d)}.foot.no h3{color:var(--red-d)}
+[data-theme=dark] .foot.ok h3{color:#47e39a}[data-theme=dark] .foot.no h3{color:#ff8e9c}
 .foot .btn{flex:none;min-width:130px}
 .foot-in>.btn:only-child{width:100%}
 @media(min-width:760px){.foot-in>.btn:only-child{width:auto;min-width:200px}}
@@ -172,60 +237,65 @@ textarea.in{resize:vertical;min-height:70px}
 .big-stars .star.on{animation:starpop .6s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--k)*.28s + .2s);filter:drop-shadow(0 4px 0 #e59f00)}
 @keyframes starpop{0%{transform:scale(0) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
 .rs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
-.rs div{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px 6px;box-shadow:0 4px 0 var(--line)}
+.rs div{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 6px;box-shadow:0 4px 0 var(--line)}
 .rs b{display:block;font-size:24px;font-weight:900}
 .rs span{font-size:12px;font-weight:800;color:var(--muted)}
 .res .row{display:grid;gap:12px}
-.record{display:inline-block;background:#fff1de;color:#e07f1f;font-weight:900;padding:6px 14px;border-radius:20px;margin-bottom:12px;animation:pop .5s .6s both}
+.record{display:inline-block;background:var(--ambbg);color:#e07f1f;font-weight:900;padding:6px 14px;border-radius:20px;margin-bottom:12px;animation:pop .5s .6s both}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:60}
-/* awards & history */
+/* awards/history */
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
-.badge{background:#fff;border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:18px;text-align:center}
+.badge{background:var(--card);border:2px solid var(--line);box-shadow:0 5px 0 var(--line);border-radius:24px;padding:18px;text-align:center}
 .badge .medal{width:72px;height:72px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;background:var(--c);box-shadow:0 5px 0 var(--d),inset 0 -6px 0 rgba(0,0,0,.08);color:#fff}
 .badge .medal svg{width:34px;height:34px}
-.badge.lock .medal{background:#dfe3f3;box-shadow:0 5px 0 #c8cee6;color:#a3a8cc}
-.badge.lock{opacity:.85}
+.badge.lock .medal{background:var(--soft);box-shadow:0 5px 0 var(--line);color:var(--muted)}
 .badge.got .medal{animation:pop .6s}
 .badge b{display:block;font-size:17px;font-weight:900}
 .badge span{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:3px 0 10px}
-.badge em{font-style:normal;font-size:12px;font-weight:900;color:var(--muted);background:#eef1fb;border-radius:10px;padding:3px 10px}
-.badge.got em{background:#e5f9ee;color:var(--green-d)}
+.badge em{font-style:normal;font-size:12px;font-weight:900;color:var(--muted);background:var(--soft);border-radius:10px;padding:3px 10px}
+.badge.got em{background:var(--okbg);color:var(--green-d)}
 .hlist{display:grid;gap:12px}
-.hrow{display:flex;align-items:center;gap:14px;background:#fff;border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:20px;padding:12px 16px}
-.hrow .stars{flex:none}
+.hrow{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid var(--line);box-shadow:0 4px 0 var(--line);border-radius:20px;padding:12px 16px}
 .hmain{flex:1;min-width:0}.hmain b{display:block;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hmain span{font-size:13px;font-weight:700;color:var(--muted)}
 .hscore{font-weight:900;font-size:18px;color:var(--blue)}
 /* teacher */
 .bars{display:grid;gap:14px}
 .bar-r{display:grid;grid-template-columns:minmax(90px,170px) 1fr 48px;gap:12px;align-items:center;font-weight:800;font-size:14px}
-.bar-r .track{height:18px}
-.bar-r em{font-style:normal;text-align:right;color:var(--muted)}
+.bar-r .track{height:18px}.bar-r em{font-style:normal;text-align:right;color:var(--muted)}
 .tw{overflow-x:auto;border-radius:20px}
-table{width:100%;border-collapse:collapse;background:#fff;min-width:520px}
-th{text-align:left;font-size:12px;font-weight:900;color:var(--muted);padding:12px 14px;background:#f7f9ff;border-bottom:2px solid var(--line)}
-td{padding:12px 14px;border-bottom:2px solid #f0f3fc;font-weight:700;font-size:14px}
+table{width:100%;border-collapse:collapse;background:var(--card);min-width:520px}
+th{text-align:left;font-size:12px;font-weight:900;color:var(--muted);padding:12px 14px;background:var(--soft2);border-bottom:2px solid var(--line)}
+td{padding:12px 14px;border-bottom:2px solid var(--soft);font-weight:700;font-size:14px}
 tr:last-child td{border-bottom:0}
 .pill{display:inline-block;padding:4px 12px;border-radius:20px;font-weight:900;font-size:13px}
-.pill.ok{background:#e5f9ee;color:var(--green-d)}.pill.mid{background:#fff1de;color:#e07f1f}.pill.no{background:#ffe9ec;color:var(--red-d)}
-.qform{display:grid;gap:4px}
+.pill.ok{background:var(--okbg);color:var(--green-d)}.pill.mid{background:var(--ambbg);color:#e07f1f}.pill.no{background:var(--nobg);color:var(--red-d)}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:18px}
+.tp{position:relative}.tp input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.tp div{display:flex;flex-direction:column;align-items:center;gap:6px;border:2px solid var(--line);border-radius:16px;padding:12px 6px;font-weight:800;font-size:13px;text-align:center;transition:.15s;box-shadow:0 3px 0 var(--line)}
+.tp svg{width:24px;height:24px}
+.tp:hover div{border-color:#b9c4f5}
+.tp input:checked+div{border-color:var(--blue);background:var(--sel);color:var(--blue);box-shadow:0 3px 0 #b9c4f5;transform:translateY(-2px)}
+.tp input:focus-visible+div{outline:3px solid rgba(76,111,255,.4)}
 .optrow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.optrow input[type=radio]{width:22px;height:22px;accent-color:var(--green);flex:none}
+.optrow input[type=radio],.optrow input[type=checkbox]{width:24px;height:24px;accent-color:var(--green);flex:none}
+.two{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:620px){.two{grid-template-columns:1fr 1fr}}
 .qgroup{margin-top:22px}
 .qgroup>h3{font-size:17px;font-weight:900;margin-bottom:10px;display:flex;justify-content:space-between}
-.qitem{background:#fff;border:2px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.qitem{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
 .qitem .qt{flex:1;min-width:0}
-.qitem b{display:block;font-weight:800;margin-bottom:6px;white-space:pre-wrap}
-.qitem small{display:block;font-weight:700;color:var(--muted);font-size:13px;line-height:1.5}
-.qitem small.c{color:var(--green-d);font-weight:800}
-.filter{display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-.filter .in{max-width:280px}
+.qitem b{display:block;font-weight:800;margin:6px 0;white-space:pre-wrap}
+.qitem small{display:block;font-weight:700;color:var(--muted);font-size:13px;line-height:1.5;font-family:var(--mono);white-space:pre-wrap;word-break:break-word}
+.qitem small.c{color:var(--green-d)}
+[data-theme=dark] .qitem small.c{color:#47e39a}
+.filter{display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.filter .in{max-width:280px}
 .loader{display:grid;place-items:center;padding:80px 0}
-.spin{width:46px;height:46px;border-radius:50%;border:5px solid #dfe5fb;border-top-color:var(--blue);animation:spin .8s linear infinite}
+.spin{width:46px;height:46px;border-radius:50%;border:5px solid var(--line);border-top-color:var(--blue);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.toast{position:fixed;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:16px;font-weight:800;z-index:80;animation:drop .4s cubic-bezier(.2,.8,.2,1);max-width:90vw;text-align:center}
+.toast{position:fixed;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:#25264a;color:#fff;padding:12px 20px;border-radius:16px;font-weight:800;z-index:80;animation:drop .4s cubic-bezier(.2,.8,.2,1);max-width:90vw;text-align:center}
 .toast.bad{background:var(--red-d)}.toast.good{background:var(--green-d)}.toast.out{opacity:0;transition:opacity .4s}
 @keyframes drop{from{transform:translate(-50%,-30px);opacity:0}}
-@media(max-width:520px){.hero{padding:16px}.hero .mascot{width:70px}.q-text{font-size:19px}.bar-r{grid-template-columns:80px 1fr 40px}}
+@media(max-width:520px){.hero{padding:16px}.hero .mascot{width:70px}.q-text{font-size:19px}.bar-r{grid-template-columns:80px 1fr 40px}.ide-body{font-size:13px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -262,6 +332,7 @@ const pct = r => Math.round(r.score / r.total * 100);
 const starsOf = p => p >= 90 ? 3 : p >= 70 ? 2 : p >= 50 ? 1 : 0;
 const fmtDate = t => new Date(t).toLocaleString('ru-RU', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
 const dayKey = t => { const d = new Date(t); return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); };
+const LET = 'АБВГДЕЖЗ';
 const PAL = [['#4c6fff','#3753d6'],['#2fc67a','#1fa561'],['#ff9f43','#e07f1f'],['#8e6cff','#6f4de0'],['#ff6fa5','#e04d86'],['#18b8d9','#0f93af']];
 const ICON = {
   grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
@@ -276,16 +347,19 @@ const ICON = {
   out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
   x:'<path d="M6 6l12 12M18 6L6 18"/>',
   trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
-  book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/>'
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  sort:'<path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/>',
+  type:'<path d="M4 7V5h16v2M12 5v14M9 19h6"/>',
+  code:'<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+  play:'<path d="M7 4l13 8-13 8z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  db:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>'
 };
-const TICON = [
-  '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
-  '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
-  '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+const TICON = [ICON.code, '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>', ICON.db,
   '<rect x="8" y="8" width="8" height="11" rx="4"/><path d="M12 8V5M9 5l1.5 2M15 5l-1.5 2M4 12h4M16 12h4M5 18l3-2M19 18l-3-2M5 7l3 2M19 7l-3 2"/>',
   '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 7v10M18 11c0 4-6 3-12 6"/>',
-  '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/>'
-];
+  '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/>'];
 const svg = (n, c = '') => `<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICON[n]}</svg>`;
 const tsvg = i => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${TICON[i % TICON.length]}</svg>`;
 const starSvg = (on, k = 0) => `<svg class="star ${on ? 'on' : ''}" style="--k:${k}" viewBox="0 0 24 24"><path d="${ICON.star.match(/d="([^"]+)"/)[1]}"/></svg>`;
@@ -304,14 +378,50 @@ const mascot = (mood = 'happy') => `<svg class="mascot" data-mood="${mood}" view
 <path class="m-mouth sad" d="M52 80q8-8 16 0" stroke="#25264a" stroke-width="4" stroke-linecap="round" fill="none"/>
 </g></svg>`;
 
+/* ===== Подсветка кода ===== */
+const KW = { js: 'function|const|let|var|return|if|else|for|while|do|of|in|new|class|extends|true|false|null|undefined|typeof|async|await|break|continue|switch|case|default|import|export|from|this|try|catch|throw',
+  py: 'def|return|if|elif|else|for|while|in|import|from|class|True|False|None|and|or|not|lambda|pass|with|as|try|except|print|range|len',
+  sql: 'SELECT|FROM|WHERE|INSERT|INTO|VALUES|UPDATE|SET|DELETE|JOIN|LEFT|RIGHT|INNER|ON|GROUP|BY|ORDER|HAVING|AND|OR|NOT|NULL|AS|LIMIT|COUNT|SUM|AVG|MAX|MIN|CREATE|TABLE|DISTINCT|LIKE' };
+const CM = { js: '\\/\\/.*|\\/\\*[\\s\\S]*?\\*\\/', py: '#.*', sql: '--.*', html: '<!--[\\s\\S]*?-->', other: '\\/\\/.*|#.*' };
+const LANG = { js: 'JavaScript', py: 'Python', sql: 'SQL', html: 'HTML/CSS', other: 'Код' };
+const FILE = { js: 'solution.js', py: 'solution.py', sql: 'query.sql', html: 'index.html', other: 'solution.txt' };
+const HLRE = {};
+Object.keys(LANG).forEach(l => {
+  const kw = l === 'html' ? '(?!)' : (KW[l] || KW.js);
+  HLRE[l] = new RegExp(`(${CM[l]})|("(?:\\\\.|[^"\\\\\\n])*"|'(?:\\\\.|[^'\\\\\\n])*'|\`[^\`]*\`)|\\b(${kw})\\b|\\b(\\d+(?:\\.\\d+)?)\\b|(<\\/?[a-zA-Z][^>]*>)`, l === 'sql' ? 'gi' : 'g');
+});
+function hl(code, lang) {
+  const R = HLRE[lang] || HLRE.js; R.lastIndex = 0; let out = '', last = 0, m;
+  while ((m = R.exec(code))) {
+    if (!m[0]) { R.lastIndex++; continue; }
+    out += esc(code.slice(last, m.index));
+    out += `<span class="tk-${m[1] ? 'c' : m[2] ? 's' : m[3] ? 'k' : m[4] ? 'n' : 't'}">${esc(m[0])}</span>`;
+    last = R.lastIndex;
+  }
+  return out + esc(code.slice(last)) + '\n';
+}
+function ideHTML(code, lang, o = {}) {
+  const n = Math.max(1, code.split('\n').length);
+  return `<div class="ide ${o.edit ? '' : 'snip'} ${o.done ? 'done' : ''}"><div class="ide-bar"><span class="dots"><i></i><i></i><i></i></span><span class="fn">${o.name || FILE[lang] || FILE.other}</span><em>${LANG[lang] || LANG.other}</em></div>
+  <div class="ide-body"><pre class="gut" ${o.edit ? 'id="gut"' : ''}>${Array.from({ length: n }, (_, i) => i + 1).join('\n')}</pre>
+  <div class="ide-code"><div class="ide-in"><pre class="hl" ${o.edit ? 'id="hl"' : ''}>${hl(code, lang)}</pre>${o.edit ? `<textarea id="ed" data-lang="${lang}" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" placeholder="// Напишите решение здесь" ${o.done ? 'disabled' : ''}>\n${esc(code)}</textarea>` : ''}</div></div></div></div>`;
+}
+function syncEd(ta) {
+  $('#hl').innerHTML = hl(ta.value, ta.dataset.lang);
+  $('#gut').textContent = Array.from({ length: ta.value.split('\n').length }, (_, i) => i + 1).join('\n');
+}
+
 /* ===== Состояние ===== */
-const S = { user: null, tab: 'auth', authMode: 'login', questions: [], results: [], all: [], loading: false, test: null, last: null, pending: null, filter: '' };
+const S = { user: null, tab: 'auth', authMode: 'login', questions: [], results: [], all: [], loading: false, test: null, last: null, registering: false, filter: '' };
+const TYPES = [['single', 'Один ответ', 'target'], ['multi', 'Несколько ответов', 'check'], ['order', 'Порядок', 'sort'], ['text', 'Ввод ответа', 'type'], ['code', 'Код', 'code']];
+const TNAME = Object.fromEntries(TYPES.map(t => [t[0], t[1]]));
+const TICO = Object.fromEntries(TYPES.map(t => [t[0], t[2]]));
+const THINT = { single: 'Выберите один вариант', multi: 'Выберите все верные варианты', order: 'Нажимайте на буквы в правильном порядке', text: 'Введите ответ с клавиатуры', code: 'Напишите решение в редакторе' };
 
 /* ===== Данные ===== */
 async function loadQuestions() { const s = await db.collection('questions').get(); S.questions = s.docs.map(d => ({ id: d.id, ...d.data() })); }
 async function loadMyResults() { const s = await db.collection('results').where('studentId', '==', S.user.uid).get(); S.results = s.docs.map(d => d.data()).sort((a, b) => b.date - a.date); }
 async function loadAllResults() { const s = await db.collection('results').orderBy('date', 'desc').limit(300).get(); S.all = s.docs.map(d => d.data()); }
-
 function stats() {
   const r = S.results, xp = r.reduce((a, x) => a + x.score * 10, 0);
   const avg = r.length ? Math.round(r.reduce((a, x) => a + pct(x), 0) / r.length) : 0;
@@ -322,33 +432,27 @@ function stats() {
   return { xp, avg, stars, streak, lvl: Math.floor(xp / 100) + 1, into: xp % 100, count: r.length };
 }
 function topicList() {
-  const m = new Map();
-  S.questions.forEach(q => m.set(q.topic, (m.get(q.topic) || 0) + 1));
-  return [...m].map(([name, count]) => {
-    const rs = S.results.filter(r => r.topic === name);
-    return { name, count, best: rs.length ? Math.max(...rs.map(pct)) : null };
-  });
+  const m = new Map(); S.questions.forEach(q => m.set(q.topic, (m.get(q.topic) || 0) + 1));
+  return [...m].map(([name, count]) => { const rs = S.results.filter(r => r.topic === name); return { name, count, best: rs.length ? Math.max(...rs.map(pct)) : null }; });
 }
 
 /* ===== Рендер ===== */
-function toast(msg, kind = '') { const t = document.createElement('div'); t.className = 'toast ' + kind; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('out'), 2600); setTimeout(() => t.remove(), 3100); }
-
+function toast(msg, kind = '') { const t = document.createElement('div'); t.className = 'toast ' + kind; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.classList.add('out'), 2800); setTimeout(() => t.remove(), 3300); }
 function renderHeader() {
-  const h = $('#topin');
+  const dark = document.documentElement.dataset.theme === 'dark';
   let html = `<div class="logo">${mascot('happy')}<span>Кодик</span></div>`;
   if (S.user) {
-    const tabs = S.user.role === 'teacher'
-      ? [['overview','chart','Обзор'],['questions','list','Вопросы'],['results','check','Результаты']]
-      : [['topics','grid','Темы'],['awards','trophy','Награды'],['history','clock','История']];
+    const tabs = S.user.role === 'teacher' ? [['overview', 'chart', 'Обзор'], ['questions', 'list', 'Вопросы'], ['results', 'check', 'Результаты']] : [['topics', 'grid', 'Темы'], ['awards', 'trophy', 'Награды'], ['history', 'clock', 'История']];
     const active = (S.tab === 'test' || S.tab === 'result') ? 'topics' : S.tab;
-    html += `<nav class="nav">${tabs.map(([k, i, t]) => `<button data-tab="${k}" class="${active === k ? 'on' : ''}">${svg(i)}<span>${t}</span></button>`).join('')}</nav><div class="spacer"></div>`;
-    html += S.user.role === 'student' ? `<div class="chip">${svg('flame')}<span style="width:0"></span>Ур. ${stats().lvl}</div>` : `<div class="chip">Преподаватель</div>`;
-    html += `<div class="avatar" title="${esc(S.user.name)}">${esc((S.user.name || '?')[0].toUpperCase())}</div><button class="icon-btn" data-act="logout" aria-label="Выйти">${svg('out')}</button>`;
+    html += `<nav class="nav">${tabs.map(([k, i, t]) => `<button data-tab="${k}" class="${active === k ? 'on' : ''}">${svg(i)}<span>${t}</span></button>`).join('')}</nav>`;
   }
-  h.innerHTML = html;
-  h.querySelectorAll('.chip svg').forEach(s => { s.style.cssText = 'width:18px;height:18px;color:#ff9f43'; });
+  html += '<div class="spacer"></div>';
+  if (S.user) html += (S.user.role === 'student' ? `<div class="chip">${svg('flame')}Ур. ${stats().lvl}</div>` : '<div class="chip">Преподаватель</div>') + `<div class="avatar" title="${esc(S.user.name)}">${esc((S.user.name || '?')[0].toUpperCase())}</div>`;
+  html += `<button class="icon-btn" data-act="theme" aria-label="Сменить тему" title="${dark ? 'Светлая тема' : 'Тёмная тема'}">${svg(dark ? 'sun' : 'moon')}</button>`;
+  if (S.user) html += `<button class="icon-btn del" data-act="logout" aria-label="Выйти" title="Выйти">${svg('out')}</button>`;
+  $('#topin').innerHTML = html;
+  $('#topin').querySelectorAll('.chip svg').forEach(s => { s.style.cssText = 'width:18px;height:18px;color:#ff9f43'; });
 }
-
 function render() {
   document.body.classList.toggle('testing', S.tab === 'test');
   renderHeader();
@@ -360,6 +464,8 @@ function render() {
   else if (S.user.role === 'teacher') html = ({ overview: tOverview, questions: tQuestions, results: tResults }[S.tab] || tOverview)();
   else html = ({ topics: sTopics, awards: sAwards, history: sHistory }[S.tab] || sTopics)();
   $('#view').innerHTML = html;
+  initQForm();
+  const ti = $('#ti'); if (ti && !ti.disabled) ti.focus();
   requestAnimationFrame(() => setTimeout(() => { animateBars(); animateCounts(); }, 40));
 }
 function animateBars() { document.querySelectorAll('[data-w]').forEach(e => { e.style.width = e.dataset.w + '%'; }); }
@@ -382,14 +488,16 @@ function confetti() {
 function authView() {
   const reg = S.authMode === 'register';
   return `<div class="auth enter">
-  <div class="auth-l">${mascot('happy')}<h1>Учись, проверяй, побеждай</h1><p>Тесты по технологиям программирования с мгновенной проверкой, звёздами, уровнями и наградами.</p></div>
+  <div class="auth-l">${mascot('happy')}<h1>Учись, пиши код, побеждай</h1><p>Тесты, задачи на порядок действий и настоящий редактор кода с автоматической проверкой по дисциплине «Технологии программирования».</p>
+  ${ideHTML('const skills = ["HTML", "CSS", "JS"];\nconsole.log(skills.length); // 3', 'js', { name: 'hello.js' })}</div>
   <div class="card">
     <div class="seg"><button data-act="mode" data-m="login" class="${!reg ? 'on' : ''}">Вход</button><button data-act="mode" data-m="register" class="${reg ? 'on' : ''}">Регистрация</button></div>
     ${configured ? '' : '<div class="warn">Firebase не настроен: вставьте firebaseConfig в index.html.</div>'}
     <form data-form="${reg ? 'register' : 'login'}">
       ${reg ? `<div class="roles"><label class="role"><input type="radio" name="role" value="student" checked><div>Студент</div></label><label class="role"><input type="radio" name="role" value="teacher"><div>Преподаватель</div></label></div>
       <label class="f"><span>Как вас зовут</span><input class="in" name="uname" required maxlength="40" autocomplete="name"></label>
-      <label class="f" id="grp"><span>Учебная группа</span><input class="in" name="group" maxlength="20" placeholder="например, ПИ-21"></label>` : ''}
+      <label class="f" id="grp"><span>Учебная группа</span><input class="in" name="group" maxlength="20" placeholder="например, ПИ-21"></label>
+      <label class="f hid" id="tcode"><span>Код преподавателя</span><input class="in mono" name="tcode" maxlength="60" autocomplete="off" placeholder="выдаётся на кафедре"><div class="hint">Без верного кода аккаунт преподавателя не создаётся. Код проверяет сервер, а не сайт.</div></label>` : ''}
       <label class="f"><span>Email</span><input class="in" type="email" name="email" required autocomplete="email"></label>
       <label class="f"><span>Пароль</span><input class="in" type="password" name="password" required minlength="6" autocomplete="${reg ? 'new-password' : 'current-password'}"></label>
       <div id="ferr"></div>
@@ -401,7 +509,6 @@ const ERR = { 'auth/invalid-credential': 'Неверный email или паро
 
 /* ----- Студент ----- */
 const tile = (c, d, icon, val, label, suf = '') => `<div class="stat" style="--c:${c};--d:${d}"><div class="ic">${svg(icon)}</div><div><b class="cnt" data-to="${val}" data-suf="${suf}">0${suf}</b><span>${label}</span></div></div>`;
-
 function sTopics() {
   const st = stats(), topics = topicList();
   const hour = new Date().getHours(), hi = hour < 6 ? 'Доброй ночи' : hour < 12 ? 'Доброе утро' : hour < 18 ? 'Добрый день' : 'Добрый вечер';
@@ -412,18 +519,15 @@ function sTopics() {
     <div style="--i:0">${tile('#ff9f43', '#e07f1f', 'flame', st.streak, 'дней подряд')}</div>
     <div style="--i:1">${tile('#ffc531', '#e59f00', 'star', st.stars, 'звёзд')}</div>
     <div style="--i:2">${tile('#4c6fff', '#3753d6', 'check', st.count, 'тестов пройдено')}</div>
-    <div style="--i:3">${tile('#2fc67a', '#1fa561', 'target', st.avg, 'средний балл', '%')}</div>
-  </div>
+    <div style="--i:3">${tile('#2fc67a', '#1fa561', 'target', st.avg, 'средний балл', '%')}</div></div>
   <h2 class="sec">Темы для проверки</h2>
   ${topics.length ? `<div class="grid stagger">${topics.map((t, i) => {
     const [c, d] = PAL[i % PAL.length], s = t.best == null ? 0 : starsOf(t.best);
     return `<button class="tcard" style="--c:${c};--d:${d};--i:${i}" data-act="topic" data-i="${i}"><div class="tile">${tsvg(i)}</div><h3>${esc(t.name)}</h3>
       <div class="track"><div class="fill" data-w="${t.best ?? 0}"></div></div>
       <div class="meta"><span>${t.count} ${plural(t.count, ['вопрос', 'вопроса', 'вопросов'])}</span><span class="stars">${[0, 1, 2].map(k => starSvg(k < s)).join('')}</span></div></button>`;
-  }).join('')}</div>` : `<div class="empty">Преподаватель пока не добавил вопросы. Загляните позже.</div>`}
-  </div>`;
+  }).join('')}</div>` : '<div class="empty">Преподаватель пока не добавил вопросы. Загляните позже.</div>'}</div>`;
 }
-
 function badgeList(st) {
   const r = S.results, tp = new Set(r.map(x => x.topic)).size;
   const mk = (t, d, ic, cur, goal, ci) => ({ t, d, ic, cur: Math.min(cur, goal), goal, ok: cur >= goal, ci });
@@ -432,59 +536,146 @@ function badgeList(st) {
     mk('В ритме', 'Занимайся 3 дня подряд', 'flame', st.streak, 3, 4), mk('Коллекционер', 'Собери 10 звёзд', 'trophy', st.stars, 10, 5)];
 }
 function sAwards() {
-  const st = stats(), b = badgeList(st), got = b.filter(x => x.ok).length;
+  const b = badgeList(stats()), got = b.filter(x => x.ok).length;
   return `<div class="enter"><h2 class="sec" style="margin-top:4px">Награды: ${got} из ${b.length}</h2><div class="badges stagger">${b.map((x, i) => `<div class="badge ${x.ok ? 'got' : 'lock'}" style="--c:${PAL[x.ci][0]};--d:${PAL[x.ci][1]};--i:${i}"><div class="medal">${svg(x.ic)}</div><b>${x.t}</b><span>${x.d}</span><em>${x.ok ? 'Получено' : x.cur + ' / ' + x.goal}</em></div>`).join('')}</div></div>`;
 }
 function sHistory() {
   return `<div class="enter"><h2 class="sec" style="margin-top:4px">История попыток</h2>${S.results.length ? `<div class="hlist stagger">${S.results.slice(0, 40).map((r, i) => `<div class="hrow" style="--i:${Math.min(i, 8)}"><div class="stars">${[0, 1, 2].map(k => starSvg(k < starsOf(pct(r)))).join('')}</div><div class="hmain"><b>${esc(r.topic)}</b><span>${fmtDate(r.date)}</span></div><div class="hscore">${r.score}/${r.total}</div></div>`).join('')}</div>` : '<div class="empty">Вы ещё не проходили тесты. Начните с любой темы!</div>'}</div>`;
 }
 
+/* ===== Проверка ответов ===== */
+const cmpNorm = (s, cs) => { s = String(s).trim().replace(/\s+/g, ' '); return cs ? s : s.toLowerCase(); };
+const squash = s => s.toLowerCase().replace(/\s+/g, ' ').replace(/\s*([(){}\[\];,:=<>+\-*\/"'`])\s*/g, '$1').trim().replace(/;$/, '');
+function matchVariants(vs, code) {
+  return vs.some(v => {
+    const m = v.match(/^\/(.+)\/([a-z]*)$/s);
+    if (m) { try { return new RegExp(m[1], m[2] || 'i').test(code.trim()); } catch (e) { return false; } }
+    return squash(v) === squash(code);
+  });
+}
+function parseTest(line) {
+  const k = line.lastIndexOf('=>');
+  if (k < 0) throw Error('В тесте нет знака «=>»: ' + line);
+  const left = line.slice(0, k).trim(), right = line.slice(k + 2).trim();
+  try { return { args: JSON.parse('[' + left + ']'), exp: JSON.parse(right), left, right }; }
+  catch (e) { throw Error('Не удалось разобрать тест «' + line + '». Используйте формат JSON: строки в двойных кавычках.'); }
+}
+const WORKER_SRC = `onmessage=e=>{const d=e.data;let f;try{f=new Function(d.code+'\\n;return typeof '+d.fn+'==="function"?'+d.fn+':undefined')()}catch(err){postMessage({error:String(err)});return}
+if(!f){postMessage({error:'Функция '+d.fn+' не найдена. Проверьте название.'});return}
+postMessage({rows:d.tests.map(t=>{try{const o=f(...t.args);const s=o===undefined?'undefined':JSON.stringify(o);return{ok:s===JSON.stringify(t.exp),out:s}}catch(err){return{ok:false,out:'ошибка: '+err.message}}})})}`;
+function runTests(it, code) {
+  return new Promise(res => {
+    const url = URL.createObjectURL(new Blob([WORKER_SRC], { type: 'text/javascript' })); let w;
+    try { w = new Worker(url); } catch (e) { res({ ok: false, error: 'Браузер не позволяет запустить код.', rows: [] }); return; }
+    const done = r => { clearTimeout(to); w.terminate(); URL.revokeObjectURL(url); res(r); };
+    const to = setTimeout(() => done({ ok: false, error: 'Превышено время выполнения: возможен бесконечный цикл.', rows: [] }), 3000);
+    w.onmessage = e => { const d = e.data; if (d.error) return done({ ok: false, error: d.error, rows: [] });
+      const rows = d.rows.map((r, i) => ({ ...r, label: `${it.fn}(${it.tests[i].left}) → ${it.tests[i].right}` })); done({ ok: rows.every(r => r.ok), rows }); };
+    w.onerror = e => done({ ok: false, error: e.message || 'Ошибка в коде.', rows: [] });
+    w.postMessage({ code, fn: it.fn, tests: it.tests.map(t => ({ args: t.args, exp: t.exp })) });
+  });
+}
+async function evaluate(it, a) {
+  switch (it.type) {
+    case 'single': return { ok: it.opts[a].ok };
+    case 'multi': { const s = new Set(a); return { ok: it.opts.every((o, j) => o.ok === s.has(j)) }; }
+    case 'order': return { ok: a.every((p, k) => it.pool[p].i === k) };
+    case 'text': return { ok: it.answers.some(x => cmpNorm(x, it.cs) === cmpNorm(a, it.cs)) };
+    case 'code': if (it.mode === 'tests') { const r = await runTests(it, a); return { ok: r.ok, run: r }; } return { ok: matchVariants(it.variants, a) };
+  }
+}
+
 /* ----- Тест ----- */
 const PRAISE = ['Верно!', 'Отлично!', 'Так держать!', 'В точку!', 'Блестяще!'];
+function makeItem(q) {
+  const type = q.type || 'single', it = { type, text: q.text, snippet: q.snippet, lang: q.lang || 'js', explain: q.explain };
+  if (type === 'single' || type === 'multi') { const cs = type === 'single' ? [q.correct ?? q.correctIndex] : q.correct; it.opts = shuffle(q.options.map((t, i) => ({ t, ok: cs.includes(i) }))); }
+  if (type === 'order') it.pool = shuffle(q.items.map((t, i) => ({ t, i })));
+  if (type === 'text') { it.answers = q.answers; it.cs = !!q.cs; }
+  if (type === 'code') { it.mode = q.mode || 'patterns'; it.starter = q.starter || ''; it.fn = q.fn; it.variants = q.variants || []; if (it.mode === 'tests') it.tests = (q.tests || []).map(parseTest); }
+  return it;
+}
+const initA = it => it.type === 'single' ? null : it.type === 'multi' || it.type === 'order' ? [] : it.type === 'code' ? it.starter : '';
+const hasAnswer = (it, a) => it.type === 'single' ? a != null : it.type === 'multi' ? a.length > 0 : it.type === 'order' ? a.length === it.pool.length : a.trim() !== '';
 function startTest(topic) {
-  const qs = shuffle(S.questions.filter(q => q.topic === topic)).slice(0, 10);
-  if (!qs.length) return;
-  S.test = { topic, i: 0, sel: null, checked: false, correct: 0, combo: 0, mood: 'happy', say: 'Подумай и выбери ответ!', fresh: true,
-    items: qs.map(q => ({ text: q.text, explain: q.explain, opts: shuffle(q.options.map((t, i) => ({ t, ok: i === q.correctIndex }))) })) };
+  const qs = shuffle(S.questions.filter(q => q.topic === topic)).slice(0, 10), items = [];
+  qs.forEach(q => { try { items.push(makeItem(q)); } catch (e) {} });
+  if (!items.length) return;
+  S.test = { topic, items, i: 0, a: initA(items[0]), run: null, ok: null, checked: false, busy: false, correct: 0, combo: 0, mood: 'happy', say: 'Подумай и выбери ответ!', fresh: true };
   S.tab = 'test'; render(); scrollTo(0, 0);
 }
+function qBody(T, it) {
+  const done = T.checked, a = T.a;
+  if (it.type === 'single' || it.type === 'multi') return it.opts.map((o, j) => {
+    const mu = it.type === 'multi', on = mu ? a.includes(j) : a === j; let c = 'ans' + (mu ? ' mu' : '');
+    if (done) c += o.ok ? ' ok' : on ? ' no' : ' dim'; else if (on) c += ' sel';
+    return `<button class="${c}" data-act="pick" data-j="${j}"><span class="k">${mu ? svg('check') : LET[j]}</span><span>${esc(o.t)}</span></button>`;
+  }).join('');
+  if (it.type === 'order') return `<div class="ord-ans ${done ? (T.ok ? 'ok' : 'no') : ''}">${it.pool.map((_, k) => `${k ? '<span class="arr">→</span>' : ''}<button class="slot ${a[k] != null ? 'on' : ''}" data-act="unpick" data-k="${k}" ${done ? 'disabled' : ''}>${a[k] != null ? LET[a[k]] : k + 1}</button>`).join('')}</div>
+    ${it.pool.map((p, j) => { const idx = a.indexOf(j); return `<button class="chip2 ${idx >= 0 ? 'used' : ''} ${/^[a-z]+ |[(){};=]/i.test(p.t) ? 'code' : ''}" data-act="opick" data-j="${j}" ${done ? 'disabled' : ''}><span class="k">${LET[j]}</span><span>${esc(p.t)}</span>${idx >= 0 ? `<em>${idx + 1}</em>` : ''}</button>`; }).join('')}`;
+  if (it.type === 'text') return `<div class="txt ${done ? (T.ok ? 'ok' : 'no') : ''}"><span>&gt;</span><input id="ti" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Введите ответ" value="${esc(a)}" ${done ? 'disabled' : ''}></div>`;
+  if (it.type === 'code') return ideHTML(a, it.lang, { edit: true, done }) + (it.mode === 'tests' ? `${done ? '' : `<div class="runbar"><button class="btn sm ghost" data-act="run">${svg('play')}Запустить тесты</button></div>`}<div id="console">${consoleHTML(T.run)}</div>` : '');
+}
+function consoleHTML(run) {
+  if (!run) return '<div class="con"><div class="con-h"><i></i>Консоль</div><div class="con-b">Нажмите «Запустить тесты», чтобы проверить решение до отправки.</div></div>';
+  const rows = run.error ? `<div class="cr bad" style="--i:0">${svg('x')}<span>${esc(run.error)}</span></div>`
+    : run.rows.map((r, i) => `<div class="cr ${r.ok ? 'good' : 'bad'}" style="--i:${i}">${svg(r.ok ? 'check' : 'x')}<span>${esc(r.label)}${r.ok ? '' : ' — получено ' + esc(r.out)}</span></div>`).join('');
+  const pass = run.rows.filter(r => r.ok).length;
+  return `<div class="con"><div class="con-h"><i></i>Консоль</div>${rows}<div class="con-s ${run.ok ? 'ok' : 'no'}"><span>Тестов пройдено</span><b>${pass} из ${run.rows.length || '—'}</b></div></div>`;
+}
+function rightAnswer(it) {
+  if (it.type === 'single') return it.opts.find(o => o.ok).t;
+  if (it.type === 'multi') return it.opts.filter(o => o.ok).map(o => o.t).join('; ');
+  if (it.type === 'order') return Array.from({ length: it.pool.length }, (_, k) => LET[it.pool.findIndex(p => p.i === k)]).join(' → ');
+  if (it.type === 'text') return it.answers[0];
+  if (it.type === 'code') return it.mode === 'tests' ? null : (it.variants.find(v => !/^\/.+\/[a-z]*$/s.test(v)) || null);
+}
 function testView() {
-  const T = S.test, q = T.items[T.i], n = T.items.length, done = Math.round((T.i + (T.checked ? 1 : 0)) / n * 100);
-  const right = q.opts.find(o => o.ok);
+  const T = S.test, it = T.items[T.i], n = T.items.length, done = Math.round((T.i + (T.checked ? 1 : 0)) / n * 100);
   const body = `<div class="${T.fresh ? 'enter' : ''}">
   <div class="t-top"><button class="x" data-act="quit" aria-label="Выйти из теста">${svg('x')}</button><div class="t-track"><div class="t-fill" style="width:${done}%"></div></div>${T.combo >= 2 ? `<div class="combo" title="Верных ответов подряд">${svg('flame')}${T.combo}</div>` : ''}</div>
   <div class="q-wrap"><div class="q-mascot"><div class="bubble">${T.say}</div>${mascot(T.mood)}</div>
-  <div class="card"><div class="q-meta">Вопрос ${T.i + 1} из ${n} · ${esc(T.topic)}</div><div class="q-text">${esc(q.text)}</div>
-  ${q.opts.map((o, j) => { let c = 'ans'; if (T.checked) c += o.ok ? ' ok' : j === T.sel ? ' no' : ' dim'; else if (j === T.sel) c += ' sel'; return `<button class="${c}" data-act="pick" data-j="${j}"><span class="k">${'ABCD'[j] || j + 1}</span><span>${esc(o.t)}</span></button>`; }).join('')}
-  </div></div></div>`;
+  <div class="card"><div class="q-meta"><span class="tag">${svg(TICO[it.type])}${TNAME[it.type]}</span><span>Вопрос ${T.i + 1} из ${n} · ${esc(S.test.topic)}</span></div>
+  <div class="q-text">${esc(it.text)}</div><div class="q-hint">${THINT[it.type]}</div>
+  ${it.snippet ? ideHTML(it.snippet, it.lang, { name: 'пример' }) : ''}${qBody(T, it)}</div></div></div>`;
   T.fresh = false;
-  const ex = q.explain ? `<p>${esc(q.explain)}</p>` : '';
   let foot;
-  if (!T.checked) foot = `<div class="foot"><div class="foot-in"><button class="btn" data-act="check" ${T.sel == null ? 'disabled' : ''}>Проверить</button></div></div>`;
+  if (!T.checked) foot = `<div class="foot"><div class="foot-in"><button class="btn" data-act="check" ${hasAnswer(it, T.a) ? '' : 'disabled'}>Проверить</button></div></div>`;
   else {
-    const ok = q.opts[T.sel].ok, last = T.i === n - 1;
-    foot = `<div class="foot ${ok ? 'ok' : 'no'}"><div class="foot-in"><div class="fb"><h3>${ok ? T.praise : 'Неверно'}</h3>${ok ? ex : `<p>Правильный ответ: ${esc(right.t)}</p>${ex}`}</div><button class="btn ${ok ? 'green' : 'red'}" data-act="next">${last ? 'Завершить' : 'Дальше'}</button></div></div>`;
+    const ok = T.ok, last = T.i === n - 1, ra = rightAnswer(it), ex = it.explain ? `<p>${esc(it.explain)}</p>` : '';
+    const lab = it.type === 'order' ? 'Правильный порядок: ' : it.type === 'code' ? 'Пример верного решения: ' : 'Правильный ответ: ';
+    const wrong = ra ? `<p>${lab}<code>${esc(ra)}</code></p>` : it.type === 'code' ? '<p>Решение прошло не все тесты, подробности в консоли выше.</p>' : '';
+    foot = `<div class="foot ${ok ? 'ok' : 'no'}"><div class="foot-in"><div class="fb"><h3>${ok ? T.praise : 'Неверно'}</h3>${ok ? ex : wrong + ex}</div><button class="btn ${ok ? 'green' : 'red'}" data-act="next">${last ? 'Завершить' : 'Дальше'}</button></div></div>`;
   }
   return body + foot;
 }
-function pick(j) { const T = S.test; if (T.checked) return; T.sel = j; render(); }
-function check() {
-  const T = S.test; if (T.checked || T.sel == null) return;
-  const ok = T.items[T.i].opts[T.sel].ok; T.checked = true;
-  if (ok) { T.correct++; T.combo++; T.mood = 'happy'; T.praise = PRAISE[Math.random() * PRAISE.length | 0]; T.say = T.combo >= 3 ? `Серия из ${T.combo} ответов!` : 'Так держать!'; }
+function pick(j) { const T = S.test, it = T.items[T.i]; if (T.checked) return; if (it.type === 'multi') T.a = T.a.includes(j) ? T.a.filter(x => x !== j) : [...T.a, j]; else T.a = j; render(); }
+function opick(j) { const T = S.test; if (T.checked || T.a.includes(j)) return; T.a = [...T.a, j]; render(); }
+function unpick(k) { const T = S.test; if (T.checked || T.a[k] == null) return; T.a = T.a.filter((_, i) => i !== k); render(); }
+async function run() {
+  const T = S.test, it = T.items[T.i], b = $('[data-act=run]'); if (!b || T.checked) return;
+  b.disabled = true; $('#console').innerHTML = '<div class="con"><div class="con-h"><i></i>Выполняется…</div><div class="con-b">Запускаю тесты…</div></div>';
+  T.run = await runTests(it, T.a); b.disabled = false; $('#console').innerHTML = consoleHTML(T.run);
+}
+async function check() {
+  const T = S.test, it = T.items[T.i]; if (T.checked || T.busy || !hasAnswer(it, T.a)) return;
+  T.busy = true; const b = $('[data-act=check]'); if (b) { b.disabled = true; b.textContent = 'Проверяю…'; }
+  let r; try { r = await evaluate(it, T.a); } catch (e) { r = { ok: false }; }
+  T.busy = false; T.checked = true; T.ok = r.ok; if (r.run) T.run = r.run;
+  if (r.ok) { T.correct++; T.combo++; T.mood = 'happy'; T.praise = PRAISE[Math.random() * PRAISE.length | 0]; T.say = T.combo >= 3 ? `Серия из ${T.combo} ответов!` : 'Так держать!'; }
   else { T.combo = 0; T.mood = 'sad'; T.say = 'Не страшно, ошибки помогают учиться.'; }
   render();
 }
 function next() {
   const T = S.test; if (!T.checked) return;
   if (T.i === T.items.length - 1) return finishTest();
-  T.i++; T.sel = null; T.checked = false; T.mood = 'happy'; T.say = 'Следующий вопрос. Ты справишься!'; T.fresh = true; render(); scrollTo(0, 0);
+  T.i++; T.a = initA(T.items[T.i]); T.run = null; T.ok = null; T.checked = false; T.mood = 'happy'; T.say = 'Следующий вопрос. Ты справишься!'; T.fresh = true; render(); scrollTo(0, 0);
 }
 async function finishTest() {
   const T = S.test, total = T.items.length, p = Math.round(T.correct / total * 100);
   const prevRs = S.results.filter(r => r.topic === T.topic), prev = prevRs.length ? Math.max(...prevRs.map(pct)) : -1;
   const rec = { studentId: S.user.uid, studentName: S.user.name, group: S.user.group || null, topic: T.topic, score: T.correct, total, date: Date.now() };
-  S.last = { rec, p, topic: T.topic, newBest: prev >= 0 && p > prev, maxCombo: T.combo };
+  S.last = { rec, p, topic: T.topic, newBest: prev >= 0 && p > prev };
   S.results.unshift(rec); S.test = null; S.tab = 'result'; render(); scrollTo(0, 0);
   if (p >= 50) setTimeout(confetti, 300);
   try { await db.collection('results').add(rec); } catch (e) { toast('Результат не сохранился: ' + (e.code || e.message), 'bad'); }
@@ -506,9 +697,7 @@ function byTopic() {
   return [...m].map(([name, a]) => ({ name, n: a.length, avg: a.length ? Math.round(a.reduce((x, y) => x + y, 0) / a.length) : null }));
 }
 const pill = p => `<span class="pill ${p >= 70 ? 'ok' : p >= 50 ? 'mid' : 'no'}">${p}%</span>`;
-const resRows = a => a.map(r => `<tr><td>${esc(r.studentName)}</td><td>${esc(r.group || '—')}</td><td>${esc(r.topic)}</td><td>${r.score}/${r.total} ${pill(pct(r))}</td><td>${fmtDate(r.date)}</td></tr>`).join('');
-const resTable = a => `<div class="tw card" style="padding:0"><table><thead><tr><th>Студент</th><th>Группа</th><th>Тема</th><th>Результат</th><th>Дата</th></tr></thead><tbody>${resRows(a)}</tbody></table></div>`;
-
+const resTable = a => `<div class="tw card" style="padding:0"><table><thead><tr><th>Студент</th><th>Группа</th><th>Тема</th><th>Результат</th><th>Дата</th></tr></thead><tbody>${a.map(r => `<tr><td>${esc(r.studentName)}</td><td>${esc(r.group || '—')}</td><td>${esc(r.topic)}</td><td>${r.score}/${r.total} ${pill(pct(r))}</td><td>${fmtDate(r.date)}</td></tr>`).join('')}</tbody></table></div>`;
 function tOverview() {
   const bt = byTopic(), all = S.all, avg = all.length ? Math.round(all.reduce((a, r) => a + pct(r), 0) / all.length) : 0;
   const studs = new Set(all.map(r => r.studentId || r.studentName)).size;
@@ -518,22 +707,40 @@ function tOverview() {
   <div style="--i:2">${tile('#ff9f43', '#e07f1f', 'check', all.length, 'прохождений')}</div>
   <div style="--i:3">${tile('#2fc67a', '#1fa561', 'target', avg, 'средний результат', '%')}</div></div>
   <h2 class="sec">Средний результат по темам</h2>
-  ${bt.length ? `<div class="card bars">${bt.map((t, i) => `<div class="bar-r"><span>${esc(t.name)}</span><div class="track"><div class="fill" style="--c:${t.avg == null ? '#cfd6f3' : t.avg >= 70 ? '#2fc67a' : t.avg >= 50 ? '#ff9f43' : '#ff5b6e'}" data-w="${t.avg ?? 0}"></div></div><em>${t.avg == null ? '—' : t.avg + '%'}</em></div>`).join('')}</div>` : '<div class="empty">Добавьте первые вопросы на вкладке «Вопросы».</div>'}
+  ${bt.length ? `<div class="card bars">${bt.map(t => `<div class="bar-r"><span>${esc(t.name)}</span><div class="track"><div class="fill" style="--c:${t.avg == null ? '#cfd6f3' : t.avg >= 70 ? '#2fc67a' : t.avg >= 50 ? '#ff9f43' : '#ff5b6e'}" data-w="${t.avg ?? 0}"></div></div><em>${t.avg == null ? '—' : t.avg + '%'}</em></div>`).join('')}</div>` : '<div class="empty">Добавьте первые вопросы на вкладке «Вопросы».</div>'}
   <h2 class="sec">Последние прохождения (студентов: ${studs})</h2>
   ${all.length ? resTable(all.slice(0, 6)) : '<div class="empty">Пока никто не проходил тесты.</div>'}</div>`;
 }
+function qSummary(q) {
+  const t = q.type || 'single', L = (txt, c) => `<small class="${c ? 'c' : ''}">${esc(txt)}</small>`;
+  if (t === 'single') return q.options.map((o, i) => L((i === (q.correct ?? q.correctIndex) ? '+ ' : '  ') + o, i === (q.correct ?? q.correctIndex))).join('');
+  if (t === 'multi') return q.options.map((o, i) => L((q.correct.includes(i) ? '+ ' : '  ') + o, q.correct.includes(i))).join('');
+  if (t === 'order') return q.items.map((o, i) => L((i + 1) + '. ' + o)).join('');
+  if (t === 'text') return L('Ответы: ' + q.answers.join(' | '), true);
+  return L(`${LANG[q.lang] || 'Код'} · ${q.mode === 'tests' ? 'проверка тестами: ' + q.fn + '()' : 'проверка по шаблонам'}`) + (q.mode === 'tests' ? (q.tests || []).map(x => L('  ' + x)).join('') : (q.variants || []).map(x => L('  ' + x)).join(''));
+}
 function tQuestions() {
   const topics = [...new Set(S.questions.map(q => q.topic))];
-  return `<div class="enter"><h2 class="sec" style="margin-top:4px">Новый вопрос</h2>
-  <form class="card qform" data-form="question" autocomplete="off">
-    <label class="f"><span>Тема</span><input class="in" name="topic" list="tl" required maxlength="60" placeholder="например, Основы ООП"><datalist id="tl">${topics.map(t => `<option value="${esc(t)}">`).join('')}</datalist></label>
-    <label class="f"><span>Текст вопроса</span><textarea class="in" name="text" required maxlength="400"></textarea></label>
-    <div class="f"><span>Варианты ответа (отметьте правильный)</span>${[0, 1, 2, 3].map(i => `<div class="optrow"><input type="radio" name="correct" value="${i}" ${i === 0 ? 'checked' : ''} aria-label="Правильный вариант ${i + 1}"><input class="in" name="o${i}" required maxlength="200" placeholder="Вариант ${i + 1}"></div>`).join('')}</div>
+  return `<div class="enter"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 class="sec" style="margin:4px 0">Новый вопрос</h2><button class="btn sm ghost" data-act="seed">${svg('db')}Загрузить демо-вопросы</button></div>
+  <form class="card qform" data-form="question" data-qtype="single" autocomplete="off">
+    <div class="types">${TYPES.map(([k, l, ic], i) => `<label class="tp"><input type="radio" name="qtype" value="${k}" ${i === 0 ? 'checked' : ''}><div>${svg(ic)}<span>${l}</span></div></label>`).join('')}</div>
+    <div class="two"><label class="f"><span>Тема</span><input class="in" name="topic" list="tl" required maxlength="60" placeholder="например, JavaScript"><datalist id="tl">${topics.map(t => `<option value="${esc(t)}">`).join('')}</datalist></label>
+    <label class="f"><span>Язык кода</span><select class="in" name="lang">${Object.entries(LANG).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label></div>
+    <label class="f"><span>Текст вопроса или задания</span><textarea class="in" name="text" required maxlength="500"></textarea></label>
+    <label class="f"><span>Фрагмент кода в условии (необязательно)</span><textarea class="in mono" name="snippet" maxlength="1500" placeholder="console.log(typeof null);"></textarea></label>
+    <div class="f" data-for="single multi"><span>Варианты ответа (отметьте правильные)</span><div id="opts"></div><button type="button" class="btn sm ghost" data-act="addopt">${svg('plus')}Добавить вариант</button></div>
+    <label class="f" data-for="order"><span>Элементы в ПРАВИЛЬНОМ порядке (по одному в строке, от 2 до 8)</span><textarea class="in mono" name="items" placeholder="git add .&#10;git commit -m &quot;правка&quot;&#10;git push"></textarea><div class="hint">Студенту они покажутся перемешанными, с буквами А, Б, В...</div></label>
+    <div data-for="text"><label class="f"><span>Допустимые ответы (по одному в строке)</span><textarea class="in mono" name="answers" placeholder="стек&#10;stack"></textarea></label><label class="f" style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="cs" style="width:20px;height:20px"><span style="margin:0">Учитывать регистр букв</span></label></div>
+    <div data-for="code"><div class="two"><label class="f"><span>Способ проверки</span><select class="in" name="cmode"><option value="tests">Автотесты (только JavaScript)</option><option value="patterns">Шаблоны решений (любой язык)</option></select></label>
+      <label class="f" data-mode="tests"><span>Имя функции</span><input class="in mono" name="fn" maxlength="40" placeholder="maxOf"></label></div>
+      <label class="f" data-mode="tests"><span>Заготовка кода для студента</span><textarea class="in mono" name="starter" placeholder="function maxOf(arr) {&#10;  // ваш код&#10;}"></textarea></label>
+      <label class="f" data-mode="tests"><span>Тесты: «аргументы => результат», по одному в строке</span><textarea class="in mono" name="tests" placeholder="[1, 5, 3] => 5&#10;[-4, -9] => -4&#10;2, 3 => 5"></textarea><div class="hint">Аргументы и результат записываются как JSON. Любое решение, проходящее все тесты, засчитывается, поэтому способов написать код может быть сколько угодно.</div></label>
+      <label class="f" data-mode="patterns"><span>Допустимые варианты решения (разделяйте строкой из трёх дефисов ---)</span><textarea class="in mono" name="variants" placeholder="SELECT * FROM users;&#10;---&#10;/^select\\s+\\*\\s+from\\s+users\\s*;?$/i"></textarea><div class="hint">Пробелы и регистр не важны. Строка вида /регулярка/флаги работает как регулярное выражение, так можно описать много вариантов написания.</div></label></div>
     <label class="f"><span>Пояснение к ответу (необязательно)</span><input class="in" name="explain" maxlength="300"></label>
     <button class="btn" type="submit">Добавить вопрос</button>
   </form>
   <h2 class="sec">Банк вопросов (${S.questions.length})</h2>
-  ${topics.length ? topics.map(t => { const qs = S.questions.filter(q => q.topic === t); return `<div class="qgroup"><h3><span>${esc(t)}</span><span style="color:var(--muted)">${qs.length}</span></h3>${qs.map(q => `<div class="qitem"><div class="qt"><b>${esc(q.text)}</b>${q.options.map((o, i) => `<small class="${i === q.correctIndex ? 'c' : ''}">${i === q.correctIndex ? 'Верно: ' : ''}${esc(o)}</small>`).join('')}</div><button class="icon-btn" data-act="delq" data-id="${q.id}" aria-label="Удалить вопрос">${svg('trash')}</button></div>`).join('')}</div>`; }).join('') : '<div class="empty">Вопросов пока нет.</div>'}</div>`;
+  ${topics.length ? topics.map(t => { const qs = S.questions.filter(q => q.topic === t); return `<div class="qgroup"><h3><span>${esc(t)}</span><span style="color:var(--muted)">${qs.length}</span></h3>${qs.map(q => `<div class="qitem"><div class="qt"><span class="tag">${svg(TICO[q.type || 'single'])}${TNAME[q.type || 'single']}</span><b>${esc(q.text)}</b>${qSummary(q)}</div><button class="icon-btn del" data-act="delq" data-id="${q.id}" aria-label="Удалить вопрос">${svg('trash')}</button></div>`).join('')}</div>`; }).join('') : '<div class="empty">Вопросов пока нет. Добавьте свои или загрузите демонстрационные.</div>'}</div>`;
 }
 function tResults() {
   const topics = [...new Set(S.all.map(r => r.topic))], a = S.filter ? S.all.filter(r => r.topic === S.filter) : S.all;
@@ -542,16 +749,88 @@ function tResults() {
   ${a.length ? resTable(a) : '<div class="empty">Нет результатов.</div>'}</div>`;
 }
 
-/* ===== События ===== */
+/* ----- Конструктор вопросов ----- */
+function addOpt(f, text = '', checked = false) {
+  const mu = f.dataset.qtype === 'multi', row = document.createElement('div'); row.className = 'optrow';
+  row.innerHTML = `<input type="${mu ? 'checkbox' : 'radio'}" name="corr" class="oc" ${checked ? 'checked' : ''} aria-label="Правильный вариант"><input class="in ot" maxlength="200" placeholder="Вариант ответа" value="${esc(text)}"><button type="button" class="icon-btn del" data-act="rmopt" aria-label="Убрать вариант">${svg('x')}</button>`;
+  f.querySelector('#opts').appendChild(row);
+}
+function applyType(f, t) {
+  f.dataset.qtype = t;
+  f.querySelectorAll('[data-for]').forEach(s => s.classList.toggle('hid', !s.dataset.for.split(' ').includes(t)));
+  f.querySelectorAll('.oc').forEach(i => { i.type = t === 'multi' ? 'checkbox' : 'radio'; });
+  const checked = f.querySelectorAll('.oc:checked'); if (t === 'single' && !checked.length) { const o = f.querySelector('.oc'); if (o) o.checked = true; }
+  applyMode(f);
+}
+function applyMode(f) { const m = f.elements.cmode.value, code = f.dataset.qtype === 'code'; f.querySelectorAll('[data-mode]').forEach(s => s.classList.toggle('hid', !code || s.dataset.mode !== m)); }
+function initQForm() { const f = $('.qform'); if (!f) return; if (!f.querySelector('.optrow')) for (let i = 0; i < 4; i++) addOpt(f, '', i === 0); applyType(f, f.elements.qtype.value); }
+function buildQuestion(f) {
+  const v = n => f.elements[n].value.trim(), t = v('qtype'), lines = n => v(n).split('\n').map(s => s.trim()).filter(Boolean);
+  const d = { topic: v('topic'), type: t, text: v('text'), snippet: v('snippet') || null, lang: v('lang'), explain: v('explain') || null, authorId: S.user.uid, createdAt: Date.now() };
+  if (!d.topic || !d.text) throw Error('Заполните тему и текст вопроса.');
+  if (t === 'single' || t === 'multi') {
+    const rows = [...f.querySelectorAll('.optrow')].map(r => ({ t: r.querySelector('.ot').value.trim(), c: r.querySelector('.oc').checked })).filter(r => r.t);
+    if (rows.length < 2) throw Error('Добавьте минимум два варианта ответа.');
+    const idx = rows.map((r, i) => r.c ? i : -1).filter(i => i >= 0);
+    if (!idx.length) throw Error('Отметьте хотя бы один правильный вариант.');
+    d.options = rows.map(r => r.t); d.correct = t === 'single' ? idx[0] : idx;
+  } else if (t === 'order') {
+    d.items = lines('items'); if (d.items.length < 2 || d.items.length > 8) throw Error('Для порядка нужно от 2 до 8 элементов.');
+  } else if (t === 'text') {
+    d.answers = lines('answers'); if (!d.answers.length) throw Error('Укажите хотя бы один допустимый ответ.'); d.cs = f.elements.cs.checked;
+  } else {
+    d.mode = v('cmode');
+    if (d.mode === 'tests') {
+      d.fn = v('fn'); if (!/^[A-Za-z_$][\w$]*$/.test(d.fn)) throw Error('Укажите корректное имя функции латиницей.');
+      d.tests = lines('tests'); if (!d.tests.length) throw Error('Добавьте хотя бы один тест.'); d.tests.forEach(parseTest);
+      d.starter = f.elements.starter.value.replace(/\s+$/, ''); d.lang = 'js';
+    } else {
+      d.variants = v('variants').split(/^\s*---+\s*$/m).map(s => s.trim()).filter(Boolean); if (!d.variants.length) throw Error('Добавьте хотя бы один вариант решения.');
+    }
+  }
+  return d;
+}
+
+/* ----- Демо-вопросы по ИТ ----- */
+const R = String.raw;
+const DEMO = [
+  { topic: 'JavaScript', type: 'single', text: 'Что выведет этот код?', snippet: 'console.log(typeof null);', lang: 'js', options: ['null', 'object', 'undefined', 'number'], correct: 1, explain: 'Историческая особенность языка: typeof null возвращает "object".' },
+  { topic: 'JavaScript', type: 'multi', text: 'Какие из значений в JavaScript приводятся к false?', options: ['0', '"0"', '""', '[]', 'null', 'NaN'], correct: [0, 2, 4, 5], explain: 'Непустая строка "0" и пустой массив [] приводятся к true.' },
+  { topic: 'JavaScript', type: 'text', text: 'Каким ключевым словом в JavaScript объявляется константа?', answers: ['const'], cs: false },
+  { topic: 'JavaScript', type: 'order', text: 'Расположите этапы получения данных с сервера в правильном порядке.', items: ['Вызвать fetch(url)', 'Получить объект Response', 'Вызвать response.json()', 'Использовать полученные данные'] },
+  { topic: 'JavaScript', type: 'code', text: 'Напишите функцию maxOf(arr), которая возвращает наибольшее число в массиве. Решить можно любым способом.', lang: 'js', mode: 'tests', fn: 'maxOf', starter: 'function maxOf(arr) {\n  // ваш код\n}', tests: ['[1, 5, 3] => 5', '[-4, -9, -1] => -1', '[7] => 7'], explain: 'Подойдёт Math.max(...arr), цикл for или reduce.' },
+  { topic: 'Git', type: 'single', text: 'Какая команда создаёт новый коммит?', options: ['git push', 'git commit', 'git clone', 'git fetch'], correct: 1 },
+  { topic: 'Git', type: 'order', text: 'Расположите команды в порядке отправки изменений на сервер.', lang: 'other', items: ['git add .', 'git commit -m "правка"', 'git push'] },
+  { topic: 'HTML и CSS', type: 'multi', text: 'Какие из этих тегов являются семантическими в HTML5?', options: ['<header>', '<div>', '<nav>', '<span>', '<footer>'], correct: [0, 2, 4] },
+  { topic: 'HTML и CSS', type: 'code', text: 'Напишите HTML-код ссылки на https://example.com с текстом «Сайт».', lang: 'html', mode: 'patterns', variants: ['<a href="https://example.com">Сайт</a>', R`/^<a\s+href=["']https?:\/\/example\.com\/?["']\s*>\s*Сайт\s*<\/a>$/i`], explain: 'Подходят кавычки любого вида и слэш в конце адреса.' },
+  { topic: 'Алгоритмы', type: 'single', text: 'Какова временная сложность бинарного поиска в отсортированном массиве?', options: ['O(n)', 'O(log n)', 'O(n²)', 'O(1)'], correct: 1 },
+  { topic: 'Алгоритмы', type: 'text', text: 'Как называется структура данных, работающая по принципу «последним пришёл, первым вышел»?', answers: ['стек', 'stack'], cs: false },
+  { topic: 'SQL', type: 'code', text: 'Напишите запрос, который выбирает все столбцы из таблицы users.', lang: 'sql', mode: 'patterns', variants: ['SELECT * FROM users;', R`/^select\s+\*\s+from\s+users\s*;?$/i`] },
+  { topic: 'ООП', type: 'multi', text: 'Какие из перечисленных понятий являются принципами ООП?', options: ['Инкапсуляция', 'Наследование', 'Полиморфизм', 'Компиляция'], correct: [0, 1, 2] }
+];
+async function seedDemo() {
+  if (!confirm('Добавить в банк ' + DEMO.length + ' демонстрационных вопросов по ИТ (все типы заданий)?')) return;
+  try {
+    const batch = db.batch(), now = Date.now();
+    DEMO.forEach((q, i) => { const ref = db.collection('questions').doc(), d = { snippet: null, lang: 'js', explain: null, ...q, authorId: S.user.uid, createdAt: now + i }; batch.set(ref, d); S.questions.push({ id: ref.id, ...d }); });
+    await batch.commit(); render(); toast('Демо-вопросы добавлены', 'good');
+  } catch (e) { await loadQuestions(); render(); toast('Не удалось добавить: ' + (e.code || e.message), 'bad'); }
+}
+
+/* ===== Вход, регистрация, события ===== */
+function setTheme(t) { document.documentElement.dataset.theme = t; try { localStorage.setItem('kodik-theme', t); } catch (e) {} document.querySelector('meta[name=theme-color]').content = t === 'dark' ? '#1a1c3b' : '#4c6fff'; renderHeader(); }
 const ACT = {
+  theme: () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'),
   mode: (_, b) => { S.authMode = b.dataset.m; render(); },
   logout: () => auth.signOut(),
   topic: (_, b) => startTest(topicList()[+b.dataset.i].name),
-  pick: (_, b) => pick(+b.dataset.j),
-  check, next,
+  pick: (_, b) => pick(+b.dataset.j), opick: (_, b) => opick(+b.dataset.j), unpick: (_, b) => unpick(+b.dataset.k),
+  check, next, run, seed: seedDemo,
   quit: () => { if (confirm('Выйти из теста? Прогресс не сохранится.')) { S.test = null; S.tab = 'topics'; render(); } },
   again: () => startTest(S.last.topic),
   home: () => { S.tab = 'topics'; render(); },
+  addopt: (_, b) => { const f = b.closest('form'); if (f.querySelectorAll('.optrow').length < 6) addOpt(f); else toast('Не больше шести вариантов'); },
+  rmopt: (_, b) => { const f = b.closest('form'); if (f.querySelectorAll('.optrow').length > 2) b.closest('.optrow').remove(); else toast('Нужно минимум два варианта'); },
   delq: async (_, b) => {
     if (!confirm('Удалить этот вопрос из банка?')) return;
     try { await db.collection('questions').doc(b.dataset.id).delete(); S.questions = S.questions.filter(q => q.id !== b.dataset.id); render(); toast('Вопрос удалён', 'good'); }
@@ -564,51 +843,71 @@ document.addEventListener('click', e => {
   const b = e.target.closest('[data-act]'); if (b && ACT[b.dataset.act]) ACT[b.dataset.act](b.dataset, b);
 });
 document.addEventListener('change', e => {
-  if (e.target.matches('[data-change=filter]')) { S.filter = e.target.value; render(); }
-  if (e.target.name === 'role') { const g = $('#grp'); if (g) g.style.display = e.target.value === 'teacher' ? 'none' : ''; }
+  const n = e.target;
+  if (n.matches('[data-change=filter]')) { S.filter = n.value; render(); }
+  if (n.name === 'role') { const t = n.value === 'teacher'; $('#grp').classList.toggle('hid', t); $('#tcode').classList.toggle('hid', !t); }
+  if (n.name === 'qtype') applyType(n.form, n.value);
+  if (n.name === 'cmode') applyMode(n.form);
+});
+document.addEventListener('input', e => {
+  const n = e.target, T = S.test; if (!T || S.tab !== 'test' || T.checked) return;
+  if (n.id === 'ed' || n.id === 'ti') { T.a = n.value; if (n.id === 'ed') syncEd(n); const b = $('[data-act=check]'); if (b) b.disabled = !hasAnswer(T.items[T.i], T.a); }
 });
 document.addEventListener('keydown', e => {
-  if (S.tab !== 'test' || !S.test || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-  const T = S.test;
-  if (e.key >= '1' && e.key <= '4' && !T.checked) { const j = +e.key - 1; if (j < T.items[T.i].opts.length) pick(j); }
+  const T = S.test; if (!T || S.tab !== 'test') return;
+  const n = e.target;
+  if (n.id === 'ed') {
+    const ins = t => { const s = n.selectionStart; n.setRangeText(t, s, n.selectionEnd, 'end'); n.dispatchEvent(new Event('input', { bubbles: true })); };
+    if (e.key === 'Tab') { e.preventDefault(); ins('  '); }
+    else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); check(); }
+    else if (e.key === 'Enter') { e.preventDefault(); const line = n.value.slice(0, n.selectionStart).split('\n').pop(); ins('\n' + line.match(/^\s*/)[0] + (/[{(\[:]\s*$/.test(line) ? '  ' : '')); }
+    return;
+  }
+  if (n.id === 'ti') { if (e.key === 'Enter') { e.preventDefault(); check(); } return; }
+  if (/INPUT|TEXTAREA|SELECT/.test(n.tagName)) return;
+  const it = T.items[T.i];
+  if (e.key >= '1' && e.key <= '8' && !T.checked) { const j = +e.key - 1; if (it.opts && j < it.opts.length) pick(j); else if (it.pool && j < it.pool.length) opick(j); }
   else if (e.key === 'Enter') { e.preventDefault(); T.checked ? next() : check(); }
 });
 document.addEventListener('submit', async e => {
   e.preventDefault();
   const f = e.target, k = f.dataset.form, btn = f.querySelector('[type=submit]'); if (btn) btn.disabled = true;
-  const err = m => { const el = $('#ferr') || f; if ($('#ferr')) el.innerHTML = m ? `<div class="formerr">${esc(m)}</div>` : ''; else toast(m, 'bad'); };
+  const err = m => { if ($('#ferr')) $('#ferr').innerHTML = m ? `<div class="formerr">${esc(m)}</div>` : ''; else toast(m, 'bad'); };
   try {
     if (!configured) throw { message: 'Firebase не настроен.' };
     const v = n => f.elements[n].value.trim();
     if (k === 'login') await auth.signInWithEmailAndPassword(v('email'), f.elements.password.value);
     if (k === 'register') {
-      const role = f.elements.role.value;
-      S.pending = { name: v('uname'), role, group: role === 'student' ? (v('group') || null) : null };
-      try { const c = await auth.createUserWithEmailAndPassword(v('email'), f.elements.password.value); await db.collection('users').doc(c.user.uid).set({ ...S.pending, createdAt: Date.now() }); }
-      catch (x) { S.pending = null; throw x; }
-      S.pending = null;
+      const role = f.elements.role.value; if (role === 'teacher' && !v('tcode')) throw { message: 'Введите код преподавателя.' };
+      S.registering = true;
+      try {
+        const c = await auth.createUserWithEmailAndPassword(v('email'), f.elements.password.value);
+        if (role === 'teacher') {
+          try { await db.collection('teachers').doc(c.user.uid).set({ code: v('tcode'), createdAt: Date.now() }); }
+          catch (x) { try { await c.user.delete(); } catch (y) { await auth.signOut(); } throw { message: 'Неверный код преподавателя. Аккаунт не создан.' }; }
+        }
+        await db.collection('users').doc(c.user.uid).set({ name: v('uname'), group: role === 'student' ? (v('group') || null) : null, createdAt: Date.now() });
+      } finally { S.registering = false; }
+      await enter(auth.currentUser);
     }
     if (k === 'question') {
-      const doc = { topic: v('topic'), text: v('text'), options: [0, 1, 2, 3].map(i => v('o' + i)), correctIndex: +f.elements.correct.value, explain: v('explain') || null, authorId: S.user.uid, createdAt: Date.now() };
-      const r = await db.collection('questions').add(doc); S.questions.push({ id: r.id, ...doc }); render(); toast('Вопрос добавлен в банк', 'good'); return;
+      const d = buildQuestion(f), r = await db.collection('questions').add(d); S.questions.push({ id: r.id, ...d }); render(); toast('Вопрос добавлен в банк', 'good'); return;
     }
   } catch (x) { err(ERR[x.code] || x.message || 'Что-то пошло не так.'); if (btn) btn.disabled = false; }
 });
 
-/* ===== Старт ===== */
-if (configured) {
-  auth.onAuthStateChanged(async u => {
-    if (!u) { S.user = null; S.test = null; S.tab = 'auth'; S.loading = false; render(); return; }
-    let d = S.pending;
-    if (!d) { try { const s = await db.collection('users').doc(u.uid).get(); d = s.exists ? s.data() : null; } catch (e) {} }
-    d = d || { name: u.email, role: 'student', group: null };
-    S.user = { uid: u.uid, name: d.name, role: d.role, group: d.group };
-    S.tab = d.role === 'teacher' ? 'overview' : 'topics'; S.loading = true; render();
-    try { await loadQuestions(); d.role === 'teacher' ? await loadAllResults() : await loadMyResults(); }
-    catch (e) { toast('Не удалось загрузить данные: ' + (e.code || e.message), 'bad'); }
-    S.loading = false; render();
-  });
-} else render();
+async function enter(u) {
+  if (!u) { S.user = null; S.test = null; S.tab = 'auth'; S.loading = false; render(); return; }
+  let isT = false, prof = {};
+  try { isT = (await db.collection('teachers').doc(u.uid).get()).exists; } catch (e) {}
+  try { const s = await db.collection('users').doc(u.uid).get(); prof = s.exists ? s.data() : {}; } catch (e) {}
+  S.user = { uid: u.uid, name: prof.name || u.email, role: isT ? 'teacher' : 'student', group: prof.group || null };
+  S.tab = isT ? 'overview' : 'topics'; S.loading = true; render();
+  try { await loadQuestions(); isT ? await loadAllResults() : await loadMyResults(); }
+  catch (e) { toast('Не удалось загрузить данные: ' + (e.code || e.message), 'bad'); }
+  S.loading = false; render();
+}
+if (configured) auth.onAuthStateChanged(u => { if (!S.registering) enter(u); }); else render();
 </script>
 </body>
 </html>
